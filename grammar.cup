@@ -1,0 +1,24 @@
+import java_cup.runtime.*;
+
+terminal            SEMI;
+terminal            ASSIGN;
+
+terminal Integer    INTEGER_LITERAL;
+terminal Float      FLOAT_LITERAL;
+terminal String     ID;
+terminal String     TYPE;
+
+non terminal dummy;
+dummy ::= ;
+
+/* Accidentally did too much */
+
+// nonterminal field_decl;
+// nonterminal optional_expr;
+// nonterminal expr;
+
+// field_decl ::= TYPE:t ID:id optional_expr SEMI;
+// optional_expr ::= ASSIGN expr | /* empty */ ;
+
+// expr ::= INTEGER_LITERAL | FLOAT_LITERAL;
+

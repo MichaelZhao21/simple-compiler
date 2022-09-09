@@ -1,0 +1,8 @@
+[Line: 0   Col: 0  ] Token #7 (value=int)
+[Line: 0   Col: 4  ] Token #6 (value=kaitlyn)
+[Line: 0   Col: 11 ] Token #2
+[Line: 1   Col: 0  ] Token #7 (value=int)
+[Line: 1   Col: 4  ] Token #6 (value=lin)
+[Line: 1   Col: 8  ] Token #3
+[Line: 1   Col: 10 ] Token #4 (value=5)
+[Line: 1   Col: 11 ] Token #2

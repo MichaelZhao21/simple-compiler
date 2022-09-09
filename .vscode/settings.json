@@ -1,0 +1,8 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "java-cup-11b.jar",
+        "java-cup-11b-runtime.jar",
+        "jflex-full-1.8.2.jar"
+    ]
+}
