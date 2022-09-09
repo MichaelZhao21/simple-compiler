@@ -3,3 +3,4 @@
 parser.java
 Lexer.java
 sym.java
+*-output.txt
