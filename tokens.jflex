@@ -63,6 +63,5 @@ FloatLiteral = [0-9]+\.[0-9]+
     {IntegerLiteral}    { return symbol(sym.INTEGER_LITERAL, Integer.parseInt(yytext())); }
     {Identifier}        { return symbol(sym.ID, new String(yytext())); }
     {whitespace}        { /* Ignore whitespace. */ }
-    .                   { System.out.println("Illegal char, '" + yytext() +
-                            "' line: " + yyline + ", column: " + yychar); } 
+    .                   { System.out.printf("[Line: %-3d Col: %-3d] ILLEGAL CHAR '%s'\n", yyline, yychar, yytext()); }
 }
