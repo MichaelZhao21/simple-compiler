@@ -1,12 +1,42 @@
 import java_cup.runtime.*;
 
-terminal            SEMI;
-terminal            ASSIGN;
+terminal    SEMI;
+terminal    ASSIGN;
+terminal    FINAL;
+terminal    IF;
+terminal    ELSE;
+terminal    WHILE;
+terminal    READ;
+terminal    PRINTLINE;
+terminal    PRINT;
+terminal    RETURN;
+terminal    MULTIPLY;
+terminal    DIVIDE;
+terminal    ADD;
+terminal    SUBTRACT;
+terminal    LT;
+terminal    GT;
+terminal    LTE;
+terminal    GTE;
+terminal    EQ;
+terminal    NE;
+terminal    OR;
+terminal    AND;
+terminal    LPAREN;
+terminal    RPAREN;
+terminal    LBRACKET;
+terminal    RBRACKET;
+terminal    COMPLEMENT;
+terminal    QUESTION;
+terminal    COLON;
 
 terminal Integer    INTEGER_LITERAL;
-terminal Float      FLOAT_LITERAL;
+terminal            FLOAT_LITERAL;
+terminal            CHAR_LITERAL;
+terminal            STRING_LITERAL;
 terminal String     ID;
 terminal String     TYPE;
+terminal String     COMMENT;
 
 non terminal dummy;
 dummy ::= ;
