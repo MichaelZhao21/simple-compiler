@@ -45,9 +45,10 @@ Identifier = [A-Za-z][A-Za-z0-9]*
 Type = "int" | "char" | "bool" | "float"
 IntegerLiteral = [0-9]+
 FloatLiteral = [0-9]+\.[0-9]+
-StringLiteral = \"([A-Za-z]|\\n|\\t|\\\\|\\\")*\"
 CharLiteral = \'([A-Za-z ]|\\n|\\t|\\\\|\\\")\'
 Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
+
+%state STRING
 
 %%
 /**
@@ -55,7 +56,7 @@ Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
  */
 
 <YYINITIAL> {
-
+    /* Keywords */
     ";"                 { return symbol(sym.SEMI); }
     "=="                { return symbol(sym.EQ); }
     "="                 { return symbol(sym.ASSIGN); }
@@ -74,9 +75,13 @@ Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
     ")"                 { return symbol(sym.RPAREN); }
     "["                 { return symbol(sym.LBRACKET); }
     "]"                 { return symbol(sym.RBRACKET); }
+    "{"                 { return symbol(sym.LCURLY); }
+    "}"                 { return symbol(sym.RCURLY); }
     "~"                 { return symbol(sym.COMPLEMENT); }
     "?"                 { return symbol(sym.QUESTION); }
     ":"                 { return symbol(sym.COLON); }
+    ","                 { return symbol(sym.COMMA); }
+    class               { return symbol(sym.CLASS); }
     final               { return symbol(sym.FINAL); }
     if                  { return symbol(sym.IF); }
     else                { return symbol(sym.ELSE); }
@@ -86,13 +91,27 @@ Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
     print               { return symbol(sym.PRINT); }
     return              { return symbol(sym.RETURN); }
 
+    \"                  { str.setLength(0); yybegin(STRING); }
     {Type}              { return symbol(sym.TYPE, new String(yytext())); }
     {FloatLiteral}      { return symbol(sym.FLOAT_LITERAL, Float.parseFloat(yytext())); }
     {IntegerLiteral}    { return symbol(sym.INTEGER_LITERAL, Integer.parseInt(yytext())); }
-    {StringLiteral}     { return symbol(sym.STRING_LITERAL, new String(yytext())); }
     {CharLiteral}       { return symbol(sym.CHAR_LITERAL, new String(yytext())); }
     {Comment}           { return symbol(sym.COMMENT, new String(yytext())); }
     {Identifier}        { return symbol(sym.ID, new String(yytext())); }
     {Whitespace}        { /* Ignore whitespace. */ }
     .                   { System.out.printf("[Line: %-3d Col: %-3d] ILLEGAL CHAR '%s'\n", yyline, yychar, yytext()); }
 }
+
+<STRING> {
+    \"                              { 
+                                        yybegin(YYINITIAL);
+                                        return symbol(sym.STRING_LITERAL, str.toString()); 
+                                    }
+    [^\n\r\"\\]+                    { str.append( yytext() ); }
+    \\t                             { str.append('\t'); }
+    \\n                             { str.append('\n'); }
+
+    \\r                             { str.append('\r'); }
+    \\\"                            { str.append('\"'); }
+    \\                              { str.append('\\'); }
+    }

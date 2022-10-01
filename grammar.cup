@@ -2,6 +2,7 @@ import java_cup.runtime.*;
 
 terminal    SEMI;
 terminal    ASSIGN;
+terminal    CLASS;
 terminal    FINAL;
 terminal    IF;
 terminal    ELSE;
@@ -26,9 +27,12 @@ terminal    LPAREN;
 terminal    RPAREN;
 terminal    LBRACKET;
 terminal    RBRACKET;
+terminal    LCURLY;
+terminal    RCURLY;
 terminal    COMPLEMENT;
 terminal    QUESTION;
 terminal    COLON;
+terminal    COMMA;
 
 terminal Integer    INTEGER_LITERAL;
 terminal            FLOAT_LITERAL;
