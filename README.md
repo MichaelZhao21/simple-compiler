@@ -1,5 +1,9 @@
 # Compiler Project Phase 0
 
+Compiler project built for [CS 4386](https://catalog.utdallas.edu/2022/undergraduate/courses/cs4386).
+
+Currently we are at phase 0, which simply identifies the tokens.
+
 ## Build and Execution
 
 Run the basic test with `make run`. If you want to run the extensive tests, execute `make test`. Both commands will build the lexer and parsers.
