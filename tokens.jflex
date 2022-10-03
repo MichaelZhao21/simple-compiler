@@ -44,7 +44,7 @@ LineTerminator = \r|\n|\r\n
 Identifier = [A-Za-z][A-Za-z0-9]*
 IntegerLiteral = [0-9]+
 FloatLiteral = [0-9]+\.[0-9]+
-CharLiteral = \'([A-Za-z ]|\\n|\\t|\\\\|\\\")\'
+CharLiteral = \'([^\n\r]|\\n|\\t|\\\\|\\\')\'
 Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
 
 %state STRING
