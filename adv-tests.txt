@@ -1,0 +1,57 @@
+\**
+ * The HelloWorld class will print a series of numbers
+ * followed by the phrase "Hello World!".
+ * Uh this will do other stuff bc I want to test all the rules :D
+ *\
+class HelloWorld {
+    final int x = 10;
+    char myChar;
+    float numList[5];
+
+    \\ This is the main function
+    int main(int argc, char argv[]) {
+        int y = 20;
+        while (x == y) {
+            print(y, " ");
+            y--;
+        }
+        printline();
+        printline("Hello World!");
+        return 0;
+    };
+
+    \\ This is another function owo
+    void runSomething(int num, bool cond) {
+        bool hi;
+        bool bye;
+        int number;
+
+        if (cond) {
+            printline("num is: ", cond);
+        } else {
+            printline("wonky characters: ", "~+|3*%\thihihi\nbyebye!@(#$&*@!%\"\"");
+        }
+        numList[0] = num * 2.5;
+        myChar = 'b';
+        numList[1] = ~10.5;
+        
+        hi = true;
+        bye = false;
+        if (hi && bye) {
+            return;
+        } else if (hi || bye) {
+            printline("this ", "is ", "a ", "long ", "line ");
+        }
+
+        number = (int) myChar;
+        number++;
+        if (number >= 10) {
+            print("your number is ", number, " which is greater than or equal to 10!");
+        }
+
+        number = (cond ? 10 : 9);
+        printline("yeet: ", number);
+
+        return;
+    }
+}

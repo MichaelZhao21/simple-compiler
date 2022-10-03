@@ -29,6 +29,11 @@ test: all
 		cat tests.txt
 		cat -n tests-output.txt
 
+adv-test: all
+		$(JAVA) -cp $(CP) LexerTest adv-tests.txt > adv-tests-output.txt
+		cat adv-tests.txt
+		cat -n adv-tests-output.txt
+
 clean:
 		rm -f *.class *~ *.bak Lexer.java parser.java sym.java
 
