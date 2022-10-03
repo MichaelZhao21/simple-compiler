@@ -1,0 +1,21 @@
+// Comment???
+<!>
+^w^
+\o/
+&
+|
+_lollipop
+"uh oh i forgot to close this string
+\\ oh well
+
+\* this Comment
+will consume everything
+
+if (true) {
+    print("hi");
+}
+
+*\
+
+'word'
+'  '
