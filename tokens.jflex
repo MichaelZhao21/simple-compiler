@@ -122,8 +122,7 @@ Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
     \\\"                            { str.append('\"'); }
     \\                              { str.append('\\'); }
     \n                              { 
-                                        System.out.printf("[Line: %-3d Col: %-3d] ERROR: String is not closed\n", yyline, yychar);
+                                        System.out.printf("[Line: %-3d Col: %-3d] ERROR: String is not closed (content=%s)\n", yyline, yychar, str.toString());
                                         yybegin(YYINITIAL);
-                                        return symbol(sym.STRING_LITERAL, str.toString());
                                     }
 }
