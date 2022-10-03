@@ -40,7 +40,6 @@ import java_cup.runtime.*;
  */
 
 Whitespace = [ \n\t\r]
-LineTerminator = \r|\n|\r\n
 Identifier = [A-Za-z][A-Za-z0-9]*
 IntegerLiteral = [0-9]+
 FloatLiteral = [0-9]+\.[0-9]+
@@ -121,7 +120,7 @@ Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
     \\r                             { str.append('\r'); }
     \\\"                            { str.append('\"'); }
     \\                              { str.append('\\'); }
-    \n                              { 
+    \n|\r|\r\n                      { 
                                         System.out.printf("[Line: %-3d Col: %-3d] ERROR: String is not closed (content=%s)\n", yyline, yychar, str.toString());
                                         yybegin(YYINITIAL);
                                     }
