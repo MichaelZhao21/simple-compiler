@@ -4,6 +4,13 @@ terminal    SEMI;
 terminal    ASSIGN;
 terminal    CLASS;
 terminal    FINAL;
+terminal    INT;
+terminal    BOOL;
+terminal    CHAR;
+terminal    FLOAT;
+terminal    VOID;
+terminal    TRUE;
+terminal    FALSE;
 terminal    IF;
 terminal    ELSE;
 terminal    WHILE;
@@ -11,6 +18,8 @@ terminal    READ;
 terminal    PRINTLINE;
 terminal    PRINT;
 terminal    RETURN;
+terminal    INCREMENT;
+terminal    DECREMENT;
 terminal    MULTIPLY;
 terminal    DIVIDE;
 terminal    ADD;
@@ -39,7 +48,6 @@ terminal            FLOAT_LITERAL;
 terminal            CHAR_LITERAL;
 terminal            STRING_LITERAL;
 terminal String     ID;
-terminal String     TYPE;
 terminal String     COMMENT;
 
 non terminal dummy;
@@ -55,4 +63,3 @@ dummy ::= ;
 // optional_expr ::= ASSIGN expr | /* empty */ ;
 
 // expr ::= INTEGER_LITERAL | FLOAT_LITERAL;
-

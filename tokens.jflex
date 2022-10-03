@@ -42,7 +42,6 @@ import java_cup.runtime.*;
 Whitespace = [ \n\t\r]
 LineTerminator = \r|\n|\r\n
 Identifier = [A-Za-z][A-Za-z0-9]*
-Type = "int" | "char" | "bool" | "float"
 IntegerLiteral = [0-9]+
 FloatLiteral = [0-9]+\.[0-9]+
 CharLiteral = \'([A-Za-z ]|\\n|\\t|\\\\|\\\")\'
@@ -60,6 +59,8 @@ Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
     ";"                 { return symbol(sym.SEMI); }
     "=="                { return symbol(sym.EQ); }
     "="                 { return symbol(sym.ASSIGN); }
+    "++"                { return symbol(sym.INCREMENT); }
+    "--"                { return symbol(sym.DECREMENT); }
     "*"                 { return symbol(sym.MULTIPLY); }
     "/"                 { return symbol(sym.DIVIDE); }
     "+"                 { return symbol(sym.ADD); }
@@ -81,6 +82,11 @@ Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
     "?"                 { return symbol(sym.QUESTION); }
     ":"                 { return symbol(sym.COLON); }
     ","                 { return symbol(sym.COMMA); }
+    int                 { return symbol(sym.INT); }
+    bool                { return symbol(sym.BOOL); }
+    char                { return symbol(sym.CHAR); }
+    float               { return symbol(sym.FLOAT); }
+    void                { return symbol(sym.VOID); }
     class               { return symbol(sym.CLASS); }
     final               { return symbol(sym.FINAL); }
     if                  { return symbol(sym.IF); }
@@ -90,9 +96,10 @@ Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
     printline           { return symbol(sym.PRINTLINE); }
     print               { return symbol(sym.PRINT); }
     return              { return symbol(sym.RETURN); }
+    true                { return symbol(sym.TRUE); }
+    false               { return symbol(sym.FALSE); }
 
     \"                  { str.setLength(0); yybegin(STRING); }
-    {Type}              { return symbol(sym.TYPE, new String(yytext())); }
     {FloatLiteral}      { return symbol(sym.FLOAT_LITERAL, Float.parseFloat(yytext())); }
     {IntegerLiteral}    { return symbol(sym.INTEGER_LITERAL, Integer.parseInt(yytext())); }
     {CharLiteral}       { return symbol(sym.CHAR_LITERAL, new String(yytext())); }
@@ -114,4 +121,4 @@ Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
     \\r                             { str.append('\r'); }
     \\\"                            { str.append('\"'); }
     \\                              { str.append('\\'); }
-    }
+}
