@@ -10,6 +10,8 @@ Run the basic test with `make run`. If you want to run the extensive tests, exec
 
 Another test case will run on an actual code file (`adv-tests.txt`). Use `make adv-test` to run these advanced tests.
 
+There is one last test case that just has illegal tokens (`bad-tests.txt`). This file will make the scanner not happy and can be run using `make bad-test`.
+
 ## To Run Custom Tests
 
 To run a custom test, simply create a new rule in the `Makefile` in the following format:
