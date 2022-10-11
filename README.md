@@ -1,8 +1,11 @@
-# Compiler Project Phase 0
+# Compiler Project Phase 1
 
 Compiler project built for [CS 4386](https://catalog.utdallas.edu/2022/undergraduate/courses/cs4386).
 
-Currently we are at phase 0, which simply identifies the tokens.
+## Project Organization
+
+- **lib**: Contains all CUP and JFlex library JARs
+- **tests**: Contains all test text files
 
 ## Build and Execution
 
@@ -22,6 +25,11 @@ test: all
 ```
 
 Replace `test` with the make command you wish to use, replace `tests.txt` with the input test file, and `tests-output.txt` with the file you wish to output text to.
+
+## Phases
+
+- **Phase 1**: Tokenizer, mostly working on `src/tokens.jflex`, which uses Regular Expressions to scan incoming tokens.
+- **Phase 2**: Parser, will take the tokens from the first part and implements the grammar in `src/grammar.cup`.
 
 ## Resources Used
 

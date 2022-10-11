@@ -1,6 +1,6 @@
 *~
 *.class
-parser.java
+Parser.java
 Lexer.java
 sym.java
 *-output.txt
