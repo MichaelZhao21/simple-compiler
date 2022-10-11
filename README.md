@@ -6,11 +6,9 @@ Currently we are at phase 0, which simply identifies the tokens.
 
 ## Build and Execution
 
-Run the basic test with `make run`. If you want to run the extensive tests, execute `make test`. Both commands will build the lexer and parsers.
+Build and run the basic test file with `make run`. If you want to run the extensive tests, execute `make test`. Both commands will build the lexer and parsers.
 
-Another test case will run on an actual code file (`adv-tests.txt`). Use `make adv-test` to run these advanced tests.
-
-There is one last test case that just has illegal tokens (`bad-tests.txt`). This file will make the scanner not happy and can be run using `make bad-test`.
+By default, `make test` will run the `tests/tests.txt` file. To run a different test file, you can set the `TEST` variable while running the Makefile. For example, to run the advanced tests (see the `tests` directory), you would issue the command `make test VAR="adv-tests"`. Any new tests would simply need to be a `.txt` file put in the `tests` directory and can be run with the command `make test VAR="[name of test file without .txt extension]"`.
 
 ## To Run Custom Tests
 

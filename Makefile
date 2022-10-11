@@ -4,6 +4,7 @@ JFLEX=$(JAVA) -jar jflex-full-1.8.2.jar
 CUPJAR=./java-cup-11b.jar
 CUP=$(JAVA) -jar $(CUPJAR)
 CP=.:$(CUPJAR)
+TEST=tests
 
 default: run
 
@@ -15,29 +16,14 @@ default: run
 FILE=    Lexer.java      parser.java    sym.java \
     LexerTest.java
 
-run: basicTest.txt
+run: test 
 
 all: Lexer.java parser.java $(FILE:java=class)
 
-basicTest.txt: all
-		$(JAVA) -cp $(CP) LexerTest basicTest.txt > basicTest-output.txt
-		cat basicTest.txt
-		cat -n basicTest-output.txt
-
 test: all
-		$(JAVA) -cp $(CP) LexerTest tests.txt > tests-output.txt
-		cat tests.txt
-		cat -n tests-output.txt
-
-adv-test: all
-		$(JAVA) -cp $(CP) LexerTest adv-tests.txt > adv-tests-output.txt
-		cat adv-tests.txt
-		cat -n adv-tests-output.txt
-
-bad-test: all
-		$(JAVA) -cp $(CP) LexerTest bad-tests.txt > bad-tests-output.txt
-		cat bad-tests.txt
-		cat -n bad-tests-output.txt
+		$(JAVA) -cp $(CP) LexerTest tests/$(TEST).txt > tests/$(TEST)-output.txt
+		cat tests/$(TEST).txt
+		cat -n tests/$(TEST)-output.txt
 
 clean:
 		rm -f *.class *~ *.bak Lexer.java parser.java sym.java
