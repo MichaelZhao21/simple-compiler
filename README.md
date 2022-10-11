@@ -11,7 +11,9 @@ Compiler project built for [CS 4386](https://catalog.utdallas.edu/2022/undergrad
 
 Build and run the basic test file with `make run`. If you want to run the extensive tests, execute `make test`. Both commands will build the lexer and parsers.
 
-By default, `make test` will run the `tests/tests.txt` file. To run a different test file, you can set the `TEST` variable while running the Makefile. For example, to run the advanced tests (see the `tests` directory), you would issue the command `make test VAR="adv-tests"`. Any new tests would simply need to be a `.txt` file put in the `tests` directory and can be run with the command `make test VAR="[name of test file without .txt extension]"`.
+By default, `make test` will run the `tests/tests.txt` file. To run a different test file, you can set the `TEST` variable while running the Makefile. For example, to run the advanced tests (see the `tests` directory), you would issue the command `make test TEST="tests"`. Any new tests would simply need to be a `.txt` file put in the `tests` directory and can be run with the command `make test TEST="[name of test file without .txt extension]"`.
+
+To run ONLY the lexer (See `LexerTest.java`), you can use `make lex-test`. The `TEST` variable still behaves the same as the `test` recipe. For the test files written to specifically catch scanning/lexing errors, see the `tests/lexer` directory. A good example can be seen when running `make lex-test TEST="lexer/adv-tests"`.
 
 ## To Run Custom Tests
 

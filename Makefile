@@ -15,12 +15,17 @@ run: test
 .java.class:
 		$(JAVAC) -cp $(CP) $*.java
 
-FILE=    Lexer.java      Parser.java    sym.java \
-    LexerTest.java
+FILE=    Lexer.java    Parser.java    sym.java \
+    LexerTest.java    ScannerTest.java
 
 all: Lexer.java Parser.java $(FILE:java=class)
 
 test: all
+		$(JAVA) -cp $(CP) ScannerTest tests/$(TEST).txt > tests/$(TEST)-output.txt
+		cat tests/$(TEST).txt
+		cat -n tests/$(TEST).txt
+
+lex-test: all
 		$(JAVA) -cp $(CP) LexerTest tests/$(TEST).txt > tests/$(TEST)-output.txt
 		cat tests/$(TEST).txt
 		cat -n tests/$(TEST)-output.txt
