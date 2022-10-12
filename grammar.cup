@@ -42,24 +42,166 @@ terminal    COMPLEMENT;
 terminal    QUESTION;
 terminal    COLON;
 terminal    COMMA;
+terminal    PREFIXPLUS;
+terminal    PREFIXMINUS;
+terminal    TYPECAST;
+terminal    TERNARY;
 
-terminal Integer    INTEGER_LITERAL;
-terminal            FLOAT_LITERAL;
-terminal            CHAR_LITERAL;
-terminal            STRING_LITERAL;
+terminal int        INTEGER_LITERAL;
+terminal float      FLOAT_LITERAL;
+terminal String     CHAR_LITERAL;
+terminal String     STRING_LITERAL;
 terminal String     ID;
 terminal String     COMMENT;
 
-non terminal dummy;
-dummy ::= ;
+non terminal Program        program;
+non terminal Expression     expression; 
+non terminal Expression     binaryExpression;
+non terminal Expression     unaryExpression;
+non terminal Expression     operandExpression;
+non terminal Expression     nameExpression;
+non terminal Expression     callExpression;
+non terminal ArgumentList   arguments;
+non terminal Type           type;
 
-/* Accidentally did too much */
+precedence right QUESTION, COLON, TERNARY;
+precedence left OR;
+precedence left AND;
+precedence left NE, EQ;
+precedence left LT, GT, LTE, GTE;
+precedence left ADD, SUBTRACT;
+precedence left MULTIPLY, DIVIDE;
+precedence left TYPECAST;
+precedence right PREFIXPLUS, PREFIXMINUS, COMPLEMENT, INCREMENT, DECREMENT;
 
-// nonterminal field_decl;
-// nonterminal optional_expr;
-// nonterminal expr;
+program             ::= expression:e
+                        {: RESULT = new Program(e); :}
+                        ;
 
-// field_decl ::= TYPE:t ID:id optional_expr SEMI;
-// optional_expr ::= ASSIGN expr | /* empty */ ;
+type                ::= INT
+                        {: RESULT = new Type("int"); :}
+                        |
+                        CHAR
+                        {: RESULT = new Type("char"); :}
+                        |
+                        BOOL
+                        {: RESULT = new Type("bool"); :}
+                        |
+                        FLOAT
+                        {: RESULT = new Type("float"); :}
+                        ;
 
-// expr ::= INTEGER_LITERAL | FLOAT_LITERAL;
+arguments           ::= expression:e COMMA arguments:a
+                        {: RESULT = a.prepend(e); :}
+                        |
+                        expression:e
+                        {: RESULT = new ArgumentList(e); :}
+                        ;
+
+expression          ::= binaryExpression:b
+                        {: RESULT = b; :}
+                        |
+                        unaryExpression:u
+                        {: RESULT = u; :}
+                        |
+                        nameExpression:n
+                        {: RESULT = n; :}
+                        |
+                        operandExpression:o
+                        {: RESULT = o; :}
+                        |
+                        callExpression:c
+                        {: RESULT = c; :}
+                        |
+                        LPAREN expression:e RPAREN
+                        {: RESULT = new ParenExpression(e); :}
+                        |
+                        LPAREN type:t RPAREN expression:e
+                        {: RESULT = new CastExpression(t, e); :}
+                        %prec TYPECAST
+                        |
+                        LPAREN expression:e1 QUESTION expression:e2 COLON expression:e3 RPAREN
+                        {: RESULT = new TernaryExpression(e1, e2, e3); :}
+                        ;
+
+binaryExpression    ::= expression:e1 ADD expression:e2
+                        {: RESULT = new BinaryExpression(e1, "+", e2); :}
+                        |
+                        expression:e1 SUBTRACT expression:e2
+                        {: RESULT = new BinaryExpression(e1, "-", e2); :}
+                        |
+                        expression:e1 MULTIPLY expression:e2
+                        {: RESULT = new BinaryExpression(e1, "*", e2); :}
+                        |
+                        expression:e1 DIVIDE expression:e2
+                        {: RESULT = new BinaryExpression(e1, "/", e2); :}
+                        |
+                        expression:e1 LT expression:e2
+                        {: RESULT = new BinaryExpression(e1, "<", e2); :}
+                        |
+                        expression:e1 GT expression:e2
+                        {: RESULT = new BinaryExpression(e1, ">", e2); :}
+                        |
+                        expression:e1 LTE expression:e2
+                        {: RESULT = new BinaryExpression(e1, "<=", e2); :}
+                        |
+                        expression:e1 GTE expression:e2
+                        {: RESULT = new BinaryExpression(e1, ">=", e2); :}
+                        |
+                        expression:e1 EQ expression:e2
+                        {: RESULT = new BinaryExpression(e1, "==", e2); :}
+                        |
+                        expression:e1 NE expression:e2
+                        {: RESULT = new BinaryExpression(e1, "<>", e2); :}
+                        |
+                        expression:e1 OR expression:e2
+                        {: RESULT = new BinaryExpression(e1, "||", e2); :}
+                        |
+                        expression:e1 AND expression:e2
+                        {: RESULT = new BinaryExpression(e1, "&&", e2); :}
+                        ;
+
+unaryExpression     ::= COMPLEMENT expression:e
+                        {: RESULT = new UnaryExpression("~", e); :}
+                        |
+                        ADD expression:e
+                        {: RESULT = new UnaryExpression("+", e); :}
+                        %prec PREFIXPLUS
+                        |
+                        SUBTRACT expression:e
+                        {: RESULT = new UnaryExpression("-", e); :}
+                        %prec PREFIXMINUS
+                        ;
+
+nameExpression      ::= ID:i
+                        {: RESULT = new OperandExpression(i, "id"); :}
+                        |
+                        ID:i LBRACKET expression:e RBRACKET
+                        {: RESULT = new IndexExpression(i, e); :}
+                        ;
+
+operandExpression   ::= INTEGER_LITERAL:i
+                        {: RESULT = new OperandExpression(i); :}
+                        |
+                        FLOAT_LITERAL:f
+                        {: RESULT = new OperandExpression(f); :}
+                        |
+                        CHAR_LITERAL:c
+                        {: RESULT = new OperandExpression(c, "char"); :}
+                        |
+                        STRING_LITERAL:s
+                        {: RESULT = new OperandExpression(s, "String"); :}
+                        |
+                        TRUE
+                        {: RESULT = new OperandExpression("true", "boolean"); :}
+                        |
+                        FALSE
+                        {: RESULT = new OperandExpression("false", "boolean"); :}
+                        ;
+
+callExpression      ::= ID:i LPAREN RPAREN
+                        {: RESULT = new CallExpression(i); :}
+                        |
+                        ID:i LPAREN arguments:a RPAREN
+                        {: RESULT = new CallExpression(i, a); :}
+                        ;

@@ -39,3 +39,60 @@ Replace `test` with the make command you wish to use, replace `tests.txt` with t
 - [JFlex Manual](https://jflex.de/manual.html#Example)
 - [Java CUP Manual (no longer active website; need to use wayback machine)](https://web.archive.org/web/20220407005956/https://www2.cs.tum.edu/projects/cup/examples.php)
 - [Random Google Group Post from 2001](https://groups.google.com/g/comp.compilers/c/fGHJWkTkZG8)
+
+# Grammar Implemented
+
+```
+Program                     ➞  class id { MemberDeclerations }
+MemberDeclerations          ➞  FieldDeclerations MethodDeclerations
+FieldDeclerations           ➞  FieldDecleration FieldDeclerations | λ
+MethodDeclerations          ➞  MethodDecleration MethodDeclerations | λ
+FieldDecleration            ➞  OptionalFinal Type id OptionalExpression ;
+                            |   Type id [ integerliteral ] ;
+OptionalFinal               ➞  final | λ
+OptionalExpression          ➞  = Expression | λ
+MethodDecleration           ➞  ReturnType id ( ArgumentDeclerations ) { FieldStatements Statements } OptionalSemi
+OptionalSemi                ➞  ; | λ
+ReturnType                  ➞  Type | void
+Type                        ➞  int | char | bool | float
+ArgumentDeclerations        ➞  ArgumentDeclerationList | λ
+ArgumentDeclerationList     ➞  ArgumentDecleration, ArgumentDeclerationList | ArgumentDecleration
+ArgumentDecleration         ➞  Type id | Type id []
+Statements                  ➞  Statements Statement | λ
+Statement                   ➞  if ( Expression ) { FieldDeclerations Statements } IfEnd
+                            |   while ( Expression ) { FieldDeclerations Statements }
+                            |   Name = Expression ;
+                            |   read ( ReadList ) ;
+                            |   print ( PrintList ) ;
+                            |   printline ( PrintLineList ) ;
+                            |   id () ;
+                            |   id ( Arguments ) ;
+                            |   return ;
+                            |   return Expression ;
+                            |   Name ++ ;
+                            |   Name -- ;
+                            |   { FieldDecleration Statements } OptionalSemi
+IfEnd                       ➞  else { FieldDeclerations Statements } | λ
+Name                        ➞  id | id [ Expression ]
+Arguments                   ➞  Expression, Arguments | Expression
+ReadList                    ➞  Name, ReadList | Name
+PrintList                   ➞  Expression, PrintList | Expression
+PrintLineList               ➞  PrintList | λ  
+Expression                  ➞  Name
+                            |   id ()
+                            |   id ( Arguments )
+                            |   integerliteral
+                            |   characterliteral
+                            |   stringliteral
+                            |   floatliteral
+                            |   true
+                            |   false
+                            |   ( Expression )
+                            |   ~ Expression
+                            |   - Expression
+                            |   + Expression
+                            |   ( Type ) Expression
+                            |   Expression BinaryOperator Expression
+                            |   ( Expression ? Expression : Expression ) 
+BinaryOperator              ➞  * | / | + | - | < | > | <= | >= | == | <> | \|\| | &&
+```

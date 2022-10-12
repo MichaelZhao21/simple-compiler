@@ -1,2 +1,63 @@
-int kaitlyn;
-int lin = 5;
+.1
+2.
+_
+$
+.
+^
+#
+first_x
+
+varName
+100
+01
+3.14
+'a'
+'z'
+'_'
+'.'
+"abc"
+"sphinx of black quartz, judge my vow"
+\\this is a comment
+\*
+this is a multiline block comment.
+*\
+
+class
+&&
+else
+if
+while
+read
+print
+printline
+return
+||
+*
++
+-
+/
+;
+(
+)
+[
+]
+{
+}
+++
+<
+>
+<=
+>=
+<>
+~
+?
+:
+=
+,
+void
+int
+float
+bool
+char
+true
+false

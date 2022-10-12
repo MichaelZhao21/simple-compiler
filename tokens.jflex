@@ -14,6 +14,10 @@ import java_cup.runtime.*;
     // StringBuffer for creating a string literal
     StringBuffer str = new StringBuffer();
 
+    // Boolean for tracking if char is found
+    boolean charFound = false;
+    char c = ' ';
+
     /**
     * Return a new Symbol with the given token id, and with the current line and
     * column numbers.
@@ -47,6 +51,7 @@ CharLiteral = \'([^\n\r]|\\n|\\t|\\\\|\\\')\'
 Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
 
 %state STRING
+%state CHAR
 
 %%
 /**
@@ -99,9 +104,9 @@ Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
     false               { return symbol(sym.FALSE); }
 
     \"                  { str.setLength(0); yybegin(STRING); }
+    \'                  { charFound = false; yybegin(CHAR); }
     {FloatLiteral}      { return symbol(sym.FLOAT_LITERAL, Float.parseFloat(yytext())); }
     {IntegerLiteral}    { return symbol(sym.INTEGER_LITERAL, Integer.parseInt(yytext())); }
-    {CharLiteral}       { return symbol(sym.CHAR_LITERAL, new String(yytext())); }
     {Comment}           { return symbol(sym.COMMENT, new String(yytext())); }
     {Identifier}        { return symbol(sym.ID, new String(yytext())); }
     {Whitespace}        { /* Ignore whitespace. */ }
@@ -122,6 +127,26 @@ Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
     \\                              { str.append('\\'); }
     \n|\r|\r\n                      { 
                                         System.out.printf("[Line: %-3d Col: %-3d] ERROR: String is not closed (content=%s)\n", yyline, yychar, str.toString());
+                                        yybegin(YYINITIAL);
+                                    }
+}
+
+<CHAR> {
+    \'                              {
+                                        yybegin(YYINITIAL);
+                                        return symbol(sym.CHAR_LITERAL, String.valueOf(c));
+                                    }
+    ([^\n\r]|\\n|\\t|\\\\|\\\')     {
+                                        if (charFound) {
+                                            System.out.printf("[Line: %-3d Col: %-3d] ERROR: Char cannot be multiple characters (content=%s)!\n", yyline, yychar, c + yytext());
+                                            yybegin(YYINITIAL);
+                                        } else {
+                                            charFound = true;
+                                            c = yytext().charAt(0);
+                                        }
+                                    }
+    \n|\r|\r\n                      {
+                                        System.out.printf("[Line: %-3d Col: %-3d] ERROR: Char is not closed (content=%c)\n", yyline, yychar, c);
                                         yybegin(YYINITIAL);
                                     }
 }
