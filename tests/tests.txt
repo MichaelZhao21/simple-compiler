@@ -1,1 +1,10 @@
-(6 + 9 == 20 ? bob[10] : john[~x + 6])
+if (a || b) {
+    return urmom * 5 - ~4 / 2 + ide;
+} else {
+    return;
+}
+
+if (ethan + is + cool) {
+    return 1 + 2 + 3;
+}
+

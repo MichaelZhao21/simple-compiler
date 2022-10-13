@@ -55,6 +55,12 @@ terminal String     ID;
 terminal String     COMMENT;
 
 non terminal Program        program;
+non terminal StatementList  statements;
+non terminal Statement      statement;
+non terminal Statement      ifStatement;
+non terminal Statement      returnStatement;
+non terminal Statement      whileStatement;
+non terminal ElseClause     elseClause;
 non terminal Expression     expression; 
 non terminal Expression     binaryExpression;
 non terminal Expression     unaryExpression;
@@ -74,8 +80,38 @@ precedence left MULTIPLY, DIVIDE;
 precedence left TYPECAST;
 precedence right PREFIXPLUS, PREFIXMINUS, COMPLEMENT, INCREMENT, DECREMENT;
 
-program             ::= expression:e
-                        {: RESULT = new Program(e); :}
+program             ::= statements:s
+                        {: RESULT = new Program(s); :}
+                        ;
+
+statements          ::= statement:s statements:ss
+                        {: RESULT = ss.prepend(s); :}
+                        |
+                        {: RESULT = new StatementList(); :}
+                        ;
+
+statement           ::= ifStatement:i
+                        {: RESULT = i; :}
+                        |
+                        returnStatement:r
+                        {: RESULT = r; :}
+                        ;
+
+ifStatement         ::= IF LPAREN expression:e RPAREN LCURLY statements:s RCURLY elseClause:ec
+                        {: RESULT = new IfStatement(e, s, ec); :}
+                        ;
+
+returnStatement     ::= RETURN expression:e SEMI
+                        {: RESULT = new ReturnStatement(e); :}
+                        |
+                        RETURN SEMI
+                        {: RESULT = new ReturnStatement(); :}
+                        ;
+
+elseClause          ::= ELSE LCURLY statements:s RCURLY
+                        {: RESULT = new ElseClause(s); :}
+                        |
+                        {: RESULT = new ElseClause(); :}
                         ;
 
 type                ::= INT

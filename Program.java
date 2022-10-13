@@ -1,12 +1,12 @@
 public class Program extends Token {
-    private Expression expression;
+    private StatementList statements;
 
-    public Program(Expression expression) {
-        this.expression = expression;
+    public Program(StatementList statements) {
+        this.statements = statements;
     }
 
     @Override
     public String toString(int t) {
-        return String.format("Program:\n%s\n", expression.toString(t + 1));
+        return String.format("%sProgram:\n%s\n", getTabs(t), statements.toString(t + 1));
     }
 }

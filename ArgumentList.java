@@ -20,6 +20,6 @@ public class ArgumentList extends Token {
 
     @Override
     public String toString(int t) {
-        return printParams(t, printList(", ", expressionList));
+        return printParams(t, printList(", ", expressionList, 0));
     }
 }
