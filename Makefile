@@ -17,7 +17,7 @@ run: test
 
 FILE= Lexer.java Parser.java sym.java LexerTest.java ScannerTest.java \
 		Token.java Program.java \
-		StatementList.java Statement.java IfStatement.java ReturnStatement.java \
+		StatementList.java Statement.java IfStatement.java WhileStatement.java ReturnStatement.java \
 		Expression.java BinaryExpression.java UnaryExpression.java ParenExpression.java CastExpression.java \
 		OperandExpression.java IndexExpression.java CallExpression.java TernaryExpression.java \
 		ArgumentList.java Type.java ElseClause.java 

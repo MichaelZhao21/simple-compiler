@@ -58,8 +58,8 @@ non terminal Program        program;
 non terminal StatementList  statements;
 non terminal Statement      statement;
 non terminal Statement      ifStatement;
-non terminal Statement      returnStatement;
 non terminal Statement      whileStatement;
+non terminal Statement      returnStatement;
 non terminal ElseClause     elseClause;
 non terminal Expression     expression; 
 non terminal Expression     binaryExpression;
@@ -93,12 +93,19 @@ statements          ::= statement:s statements:ss
 statement           ::= ifStatement:i
                         {: RESULT = i; :}
                         |
+                        whileStatement:w
+                        {: RESULT = w; :}
+                        |
                         returnStatement:r
                         {: RESULT = r; :}
                         ;
 
 ifStatement         ::= IF LPAREN expression:e RPAREN LCURLY statements:s RCURLY elseClause:ec
                         {: RESULT = new IfStatement(e, s, ec); :}
+                        ;
+
+whileStatement      ::= WHILE LPAREN expression:e RPAREN LCURLY statements:s RCURLY
+                        {: RESULT = new WhileStatement(e, s); :}
                         ;
 
 returnStatement     ::= RETURN expression:e SEMI

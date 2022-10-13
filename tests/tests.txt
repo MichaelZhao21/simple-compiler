@@ -8,3 +8,9 @@ if (ethan + is + cool) {
     return 1 + 2 + 3;
 }
 
+while (ur * face == no) {
+    if (5 + 5 == 10) {
+        return 100.24;
+    }
+}
+
