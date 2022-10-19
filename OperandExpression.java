@@ -19,6 +19,12 @@ public class OperandExpression extends Expression {
 
     @Override
     public String toString(int t) {
-        return printParams(t, type + ":" + value);
+        String valString = value;
+        if (type.equals("char"))
+            valString = String.format("'%s'", value);
+        else if (type.equals("string"))
+            valString = String.format("\"%s\"", value);
+
+        return printParams(t, type + ":" + valString);
     }
 }

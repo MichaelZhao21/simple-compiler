@@ -1,0 +1,17 @@
+if ( x ) { x = 0; }
+if ( x ) { x = 0; } else { x = 0; }
+while ( x ) { x = 0; }
+x = 0;
+read ( x );
+read (x,x);
+print(x);
+print(x+1,x);
+printline(x);
+printline();
+x();
+x(x);
+x(x,x);
+return;
+return x;
+x++;
+x--;

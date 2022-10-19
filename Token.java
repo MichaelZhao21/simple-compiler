@@ -14,7 +14,8 @@ abstract class Token {
     }
 
     protected String printParams(String sep, int t, String... strings) {
-        if (strings.length == 0) return "";
+        if (strings.length == 0)
+            return "";
         StringBuilder sb = new StringBuilder().append(strings[0]);
         for (int i = 1; i < strings.length; i++) {
             sb.append(sep).append(strings[i]);
@@ -23,10 +24,16 @@ abstract class Token {
     }
 
     protected <T extends Token> String printList(String sep, List<T> l, int t) {
-        if (l.size() == 0) return "";
-        StringBuilder sb = new StringBuilder().append(l.get(0).toString(t));
+        return printList(sep, l, t, false);
+    }
+
+    protected <T extends Token> String printList(String sep, List<T> l, int t, boolean isExpression) {
+        if (l.size() == 0)
+            return "";
+        StringBuilder sb = new StringBuilder().append(isExpression ? "( " : "").append(l.get(0).toString(t)).append(isExpression ? " )" : "");
         for (int i = 1; i < l.size(); i++) {
-            sb.append(sep).append(l.get(i).toString(t));
+            sb.append(sep).append(isExpression ? "( " : "").append(l.get(i).toString(t))
+                    .append(isExpression ? " )" : "");
         }
         return sb.toString();
     }

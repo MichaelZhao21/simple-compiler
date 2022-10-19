@@ -1,19 +1,19 @@
 import java.util.List;
 import java.util.LinkedList;
 
-public class ArgumentList extends FunctionList {
+public class PrintList extends FunctionList {
     List<Expression> expressionList;
 
-    public ArgumentList() {
+    public PrintList() {
         expressionList = new LinkedList<>();
     }
 
-    public ArgumentList(Expression e) {
+    public PrintList(Expression e) {
         expressionList = new LinkedList<>();
         expressionList.add(e);
     }
 
-    public ArgumentList prepend(Expression e) {
+    public PrintList prepend(Expression e) {
         expressionList.add(0, e);
         return this;
     }

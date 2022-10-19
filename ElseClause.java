@@ -12,7 +12,7 @@ public class ElseClause extends Token {
     @Override
     public String toString(int t) {
         if (statements == null)
-            return "\n";
-        return printParams("", 0, " else {\n", statements.toString(t + 1), "\n", getTabs(t), "}\n");
+            return "";
+        return printParams("", 0, " else {\n", statements.toString(t + 1), "\n", getTabs(t), "}");
     }
 }

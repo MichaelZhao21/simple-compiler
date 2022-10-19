@@ -60,14 +60,21 @@ non terminal Statement      statement;
 non terminal Statement      ifStatement;
 non terminal Statement      whileStatement;
 non terminal Statement      returnStatement;
+non terminal Statement      assignStatement;
+non terminal Statement      functionStatement;
+non terminal Statement      callStatement;
+non terminal Statement      suffixStatement;
 non terminal ElseClause     elseClause;
 non terminal Expression     expression; 
 non terminal Expression     binaryExpression;
 non terminal Expression     unaryExpression;
 non terminal Expression     operandExpression;
-non terminal Expression     nameExpression;
 non terminal Expression     callExpression;
-non terminal ArgumentList   arguments;
+non terminal FunctionList   argumentList;
+non terminal FunctionList   readList;
+non terminal FunctionList   printList;
+non terminal FunctionList   printLineList;
+non terminal Name           name;
 non terminal Type           type;
 
 precedence right QUESTION, COLON, TERNARY;
@@ -98,6 +105,18 @@ statement           ::= ifStatement:i
                         |
                         returnStatement:r
                         {: RESULT = r; :}
+                        |
+                        assignStatement:a
+                        {: RESULT = a; :}
+                        |
+                        functionStatement:f
+                        {: RESULT = f; :}
+                        |
+                        callStatement:c
+                        {: RESULT = c; :}
+                        |
+                        suffixStatement:s
+                        {: RESULT = s; :}
                         ;
 
 ifStatement         ::= IF LPAREN expression:e RPAREN LCURLY statements:s RCURLY elseClause:ec
@@ -113,6 +132,58 @@ returnStatement     ::= RETURN expression:e SEMI
                         |
                         RETURN SEMI
                         {: RESULT = new ReturnStatement(); :}
+                        ;
+
+assignStatement     ::= name:n ASSIGN expression:e SEMI
+                        {: RESULT = new AssignmentStatement(n, e); :}
+                        ;
+
+functionStatement   ::= READ LPAREN readList:r RPAREN SEMI
+                        {: RESULT = new LibraryFunctionStatement("read", r); :}
+                        |
+                        PRINT LPAREN printList:p RPAREN SEMI
+                        {: RESULT = new LibraryFunctionStatement("print", p); :}
+                        |
+                        PRINTLINE LPAREN printLineList:p RPAREN SEMI
+                        {: RESULT = new LibraryFunctionStatement("printline", p); :}
+                        ;
+
+callStatement       ::= callExpression:c SEMI
+                        {: RESULT = new CallStatement(c); :}
+                        ;
+
+suffixStatement     ::= name:n INCREMENT SEMI
+                        {: RESULT = new SuffixStatement(n, "++"); :}
+                        |
+                        name:n DECREMENT SEMI
+                        {: RESULT = new SuffixStatement(n, "--"); :}
+                        ;
+
+argumentList        ::= expression:e COMMA argumentList:a
+                        {: RESULT = a.prepend(e); :}
+                        |
+                        expression:e
+                        {: RESULT = new ArgumentList(e); :}
+                        ;
+
+printList           ::= expression:e COMMA printList:p
+                        {: RESULT = p.prepend(e); :}
+                        |
+                        expression:e
+                        {: RESULT = new PrintList(e); :}
+                        ;
+
+printLineList       ::= printList:p
+                        {: RESULT = p; :}
+                        |
+                        {: RESULT = new PrintList(); :}
+                        ;
+
+readList            ::= name:n COMMA readList:r
+                        {: RESULT = r.prepend(n); :}
+                        |
+                        name:n
+                        {: RESULT = new ReadList(n); :}
                         ;
 
 elseClause          ::= ELSE LCURLY statements:s RCURLY
@@ -134,20 +205,13 @@ type                ::= INT
                         {: RESULT = new Type("float"); :}
                         ;
 
-arguments           ::= expression:e COMMA arguments:a
-                        {: RESULT = a.prepend(e); :}
-                        |
-                        expression:e
-                        {: RESULT = new ArgumentList(e); :}
-                        ;
-
 expression          ::= binaryExpression:b
                         {: RESULT = b; :}
                         |
                         unaryExpression:u
                         {: RESULT = u; :}
                         |
-                        nameExpression:n
+                        name:n
                         {: RESULT = n; :}
                         |
                         operandExpression:o
@@ -216,11 +280,11 @@ unaryExpression     ::= COMPLEMENT expression:e
                         %prec PREFIXMINUS
                         ;
 
-nameExpression      ::= ID:i
-                        {: RESULT = new OperandExpression(i, "id"); :}
+name                    ::= ID:i
+                        {: RESULT = new Name(i); :}
                         |
                         ID:i LBRACKET expression:e RBRACKET
-                        {: RESULT = new IndexExpression(i, e); :}
+                        {: RESULT = new Name(i, e); :}
                         ;
 
 operandExpression   ::= INTEGER_LITERAL:i
@@ -233,7 +297,7 @@ operandExpression   ::= INTEGER_LITERAL:i
                         {: RESULT = new OperandExpression(c, "char"); :}
                         |
                         STRING_LITERAL:s
-                        {: RESULT = new OperandExpression(s, "String"); :}
+                        {: RESULT = new OperandExpression(s, "string"); :}
                         |
                         TRUE
                         {: RESULT = new OperandExpression("true", "boolean"); :}
@@ -245,6 +309,6 @@ operandExpression   ::= INTEGER_LITERAL:i
 callExpression      ::= ID:i LPAREN RPAREN
                         {: RESULT = new CallExpression(i); :}
                         |
-                        ID:i LPAREN arguments:a RPAREN
+                        ID:i LPAREN argumentList:a RPAREN
                         {: RESULT = new CallExpression(i, a); :}
                         ;

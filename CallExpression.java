@@ -1,13 +1,13 @@
 public class CallExpression extends Expression {
     String id;
-    ArgumentList argumentList;
+    FunctionList argumentList;
 
     public CallExpression(String id) {
         this.id = id;
-        this.argumentList = new ArgumentList();
+        this.argumentList = new PrintList();
     }
 
-    public CallExpression(String id, ArgumentList argumentList) {
+    public CallExpression(String id, FunctionList argumentList) {
         this.id = id;
         this.argumentList = argumentList;
     }
