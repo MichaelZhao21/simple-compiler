@@ -13,6 +13,9 @@ while (ur * face == no) {
         return 100.24;
     }
 }
-
-bob[7 * ned[2]] = 5;
+{
+    {
+        bob[7 * ned[2]] = 5;
+    };
+}
 

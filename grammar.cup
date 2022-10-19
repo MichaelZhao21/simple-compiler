@@ -63,6 +63,7 @@ non terminal Statement      assignStatement;
 non terminal Statement      functionStatement;
 non terminal Statement      callStatement;
 non terminal Statement      suffixStatement;
+non terminal Statement      scopeStatement;
 non terminal ElseClause     elseClause;
 non terminal Expression     expression; 
 non terminal Expression     binaryExpression;
@@ -116,6 +117,9 @@ statement           ::= ifStatement:i
                         |
                         suffixStatement:s
                         {: RESULT = s; :}
+                        |
+                        scopeStatement:ss
+                        {: RESULT = ss; :}
                         ;
 
 ifStatement         ::= IF LPAREN expression:e RPAREN LCURLY statements:s RCURLY elseClause:ec
@@ -156,6 +160,13 @@ suffixStatement     ::= name:n INCREMENT SEMI
                         |
                         name:n DECREMENT SEMI
                         {: RESULT = new SuffixStatement(n, "--"); :}
+                        ;
+
+scopeStatement      ::= LCURLY statements:s RCURLY
+                        {: RESULT = new ScopeStatement(s, false); :}
+                        |
+                        LCURLY statements:s RCURLY SEMI
+                        {: RESULT = new ScopeStatement(s, true); :}
                         ;
 
 argumentList        ::= expression:e COMMA argumentList:a
