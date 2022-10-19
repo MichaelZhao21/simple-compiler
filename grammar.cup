@@ -52,7 +52,6 @@ terminal float      FLOAT_LITERAL;
 terminal String     CHAR_LITERAL;
 terminal String     STRING_LITERAL;
 terminal String     ID;
-terminal String     COMMENT;
 
 non terminal Program        program;
 non terminal StatementList  statements;

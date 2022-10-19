@@ -107,7 +107,7 @@ Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
     \'                  { charFound = false; yybegin(CHAR); }
     {FloatLiteral}      { return symbol(sym.FLOAT_LITERAL, Float.parseFloat(yytext())); }
     {IntegerLiteral}    { return symbol(sym.INTEGER_LITERAL, Integer.parseInt(yytext())); }
-    {Comment}           { return symbol(sym.COMMENT, new String(yytext())); }
+    {Comment}           { /* Ignore comments. */ }
     {Identifier}        { return symbol(sym.ID, new String(yytext())); }
     {Whitespace}        { /* Ignore whitespace. */ }
     .                   { System.out.printf("[Line: %-3d Col: %-3d] ILLEGAL CHAR '%s'\n", yyline, yychar, yytext()); }
