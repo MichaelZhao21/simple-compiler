@@ -15,19 +15,6 @@ By default, `make test` will run the `tests/tests.txt` file. To run a different 
 
 To run ONLY the lexer (See `LexerTest.java`), you can use `make lex-test`. The `TEST` variable still behaves the same as the `test` recipe. For the test files written to specifically catch scanning/lexing errors, see the `tests/lexer` directory. A good example can be seen when running `make lex-test TEST="lexer/adv-tests"`.
 
-## To Run Custom Tests
-
-To run a custom test, simply create a new rule in the `Makefile` in the following format:
-
-```Makefile
-test: all
-		$(JAVA) -cp $(CP) LexerTest tests.txt > tests-output.txt
-		cat tests.txt
-		cat -n tests-output.txt
-```
-
-Replace `test` with the make command you wish to use, replace `tests.txt` with the input test file, and `tests-output.txt` with the file you wish to output text to.
-
 ## Phases
 
 - **Phase 1**: Tokenizer, mostly working on `src/tokens.jflex`, which uses Regular Expressions to scan incoming tokens.
