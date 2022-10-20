@@ -25,6 +25,6 @@ public class OperandExpression extends Expression {
         else if (type.equals("string"))
             valString = String.format("\"%s\"", value);
 
-        return printParams(t, type + ":" + valString);
+        return printParams(t, valString);
     }
 }

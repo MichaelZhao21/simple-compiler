@@ -14,6 +14,6 @@ public class CallExpression extends Expression {
 
     @Override
     public String toString(int t) {
-        return printParams(t, "id:" + id, "(", argumentList.toString(0), ")");
+        return printParams(t, id, "(", argumentList.toString(0), ")");
     }
 }

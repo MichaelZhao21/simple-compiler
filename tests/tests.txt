@@ -18,4 +18,3 @@ while (ur * face == no) {
         bob[7 * ned[2]] = 5;
     };
 }
-

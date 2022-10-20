@@ -14,7 +14,7 @@ public class Name extends Expression {
     @Override
     public String toString(int t) {
         if (expression == null)
-            return printParams("", t, "id:", id);
-        return printParams(t, "id:" + id, "[", "(", expression.toString(0), ")", "]");
+            return printParams("", t, id);
+        return printParams(t, id, "[", "(", expression.toString(0), ")", "]");
     }
 }

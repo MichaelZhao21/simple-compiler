@@ -7,6 +7,6 @@ public class Program extends Token {
 
     @Override
     public String toString(int t) {
-        return String.format("%sProgram:\n%s\n", getTabs(t), statements.toString(t + 1));
+        return statements.toString(t);
     }
 }
