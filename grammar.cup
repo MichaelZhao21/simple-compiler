@@ -53,29 +53,35 @@ terminal String     CHAR_LITERAL;
 terminal String     STRING_LITERAL;
 terminal String     ID;
 
-non terminal Program        program;
-non terminal StatementList  statements;
-non terminal Statement      statement;
-non terminal Statement      ifStatement;
-non terminal Statement      whileStatement;
-non terminal Statement      returnStatement;
-non terminal Statement      assignStatement;
-non terminal Statement      functionStatement;
-non terminal Statement      callStatement;
-non terminal Statement      suffixStatement;
-non terminal Statement      scopeStatement;
-non terminal ElseClause     elseClause;
-non terminal Expression     expression; 
-non terminal Expression     binaryExpression;
-non terminal Expression     unaryExpression;
-non terminal Expression     operandExpression;
-non terminal Expression     callExpression;
-non terminal FunctionList   argumentList;
-non terminal FunctionList   readList;
-non terminal FunctionList   printList;
-non terminal FunctionList   printLineList;
-non terminal Name           name;
-non terminal Type           type;
+non terminal Program            program;
+non terminal MemberDeclerations memberDeclerations;
+non terminal FieldList          fieldList;
+non terminal Field              fieldDecleration;
+non terminal MethodList         methodList;
+non terminal Method             methodDecleration;
+non terminal StatementList      statements;
+non terminal Statement          statement;
+non terminal Statement          ifStatement;
+non terminal Statement          whileStatement;
+non terminal Statement          returnStatement;
+non terminal Statement          assignStatement;
+non terminal Statement          functionStatement;
+non terminal Statement          callStatement;
+non terminal Statement          suffixStatement;
+non terminal Statement          scopeStatement;
+non terminal ElseClause         elseClause;
+non terminal Expression         expression; 
+non terminal Expression         binaryExpression;
+non terminal Expression         unaryExpression;
+non terminal Expression         operandExpression;
+non terminal Expression         callExpression;
+non terminal FunctionList       argumentList;
+non terminal FunctionList       readList;
+non terminal FunctionList       printList;
+non terminal FunctionList       printLineList;
+non terminal Name               name;
+non terminal Type               type;
+non terminal Type               returnType;
 
 precedence right QUESTION, COLON, TERNARY;
 precedence left OR;
@@ -87,8 +93,47 @@ precedence left MULTIPLY, DIVIDE;
 precedence left TYPECAST;
 precedence right PREFIXPLUS, PREFIXMINUS, COMPLEMENT, INCREMENT, DECREMENT;
 
-program             ::= statements:s
+program             ::= CLASS ID:i LCURLY memberDeclerations:m
                         {: RESULT = new Program(s); :}
+                        ;
+
+memberDeclerations  ::= fieldList:f methodList:m
+                        {: RESULT = new MemberDeclerations(f, m):}
+                        ;
+
+fieldList           ::= fieldDecleration:f fieldList:ff
+                        {: RESULT = ff.prepend(f); :}
+                        |
+                        {: RESULT = new FieldList(); :}
+                        ;
+
+fieldDecleration    ::= FINAL type:t ID:i EQ expression:e SEMI
+                        {: RESULT = new Field(t, new Name(i), e, true); :}
+                        |
+                        type:t ID:i EQ expression:e SEMI
+                        {: RESULT = new Field(t, new Name(i), e, false); :}
+                        |
+                        FINAL type:t ID:i SEMI
+                        {: RESULT = new Field(t, new Name(i), true); :}
+                        |
+                        type:t ID:i SEMI
+                        {: RESULT = new Field(t, new Name(i), false); :}
+                        |
+                        type:t ID:i LBRACKET INTEGER_LITERAL:in RBRACKET SEMI
+                        {: RESULT = new Field(t, new Name(i, in), false) :}
+                        ;
+
+methodList          ::= methodDecleration:m methodList:mm
+                        {: RESULT = mm.prepend(m); :}
+                        |
+                        {: RESULT = new MethodList(); :}
+                        ;
+
+methodDecleration   ::= returnType:t ID:i LPAREN argumentList:a RPAREN LCURLY fieldList:f statements:s RCURLY SEMI
+                        {: RESULT = new Method(t, i, a, f, s, true); :}
+                        |
+                        returnType:t ID:i LPAREN argumentList:a RPAREN LCURLY fieldList:f statements:s RCURLY
+                        {: RESULT = new Method(t, i, a, f, s, false); :}
                         ;
 
 statements          ::= statement:s statements:ss
@@ -213,6 +258,13 @@ type                ::= INT
                         |
                         FLOAT
                         {: RESULT = new Type("float"); :}
+                        ;
+
+returnType          ::= VOID
+                        {: RESULT = new Type("void"); :}
+                        |
+                        type:t
+                        {: RESULT = t; :}
                         ;
 
 expression          ::= binaryExpression:b

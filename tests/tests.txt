@@ -1,20 +1,26 @@
-if (a || b) {
-    return urmom * 5 - ~4 / 2 + ide;
-} else {
-    return;
-}
+class Hi {
+    char x = 'a';
+    
+    void run(int a, int b) {
+        if (a || b) {
+            return urmom * 5 - ~4 / 2 + ide;
+        } else {
+            return;
+        }
 
-if (ethan + is + cool) {
-    return 1 + 2 + 3;
-}
+        if (ethan + is + cool) {
+            return 1 + 2 + 3;
+        }
 
-while (ur * face == no) {
-    if (5 + 5 == 10) {
-        return 100.24;
+        while (ur * face == no) {
+            if (5 + 5 == 10) {
+                return 100.24;
+            }
+        }
+        {
+            {
+                bob[7 * ned[2]] = 5;
+            };
+        }
     }
-}
-{
-    {
-        bob[7 * ned[2]] = 5;
-    };
 }

@@ -1,12 +1,14 @@
 public class Program extends Token {
-    private StatementList statements;
+    Name id;
+    MemberDeclerations memberDeclerations;
 
-    public Program(StatementList statements) {
-        this.statements = statements;
+    public Program(Name id, MemberDeclerations memberDeclerations) {
+        this.memberDeclerations = memberDeclerations;
+        this.id = id;
     }
 
     @Override
     public String toString(int t) {
-        return statements.toString(t);
+        return printParams(t, "class", id.toString(0), "{\n", memberDeclerations.toString(t), "\n}");
     }
 }

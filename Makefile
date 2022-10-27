@@ -17,6 +17,7 @@ run: test
 
 FILE= Lexer.java Parser.java sym.java LexerTest.java ScannerTest.java \
 		Token.java Program.java \
+		MemberDeclerations.java FieldList.java Field.java MethodList.java Method.java \
 		StatementList.java Statement.java IfStatement.java WhileStatement.java ReturnStatement.java \
 		AssignmentStatement.java LibraryFunctionStatement.java CallStatement.java SuffixStatement.java ScopeStatement.java \
 		FunctionList.java ArgumentList.java ReadList.java PrintList.java \
@@ -44,3 +45,6 @@ Lexer.java: tokens.jflex
 
 Parser.java: grammar.cup
 		$(CUP) -parser Parser -interface < grammar.cup
+
+parserD.java: grammar.cup
+		$(CUP) -interface -dump < grammar.cup
