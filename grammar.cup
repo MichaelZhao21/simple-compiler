@@ -79,6 +79,9 @@ non terminal FunctionList       argumentList;
 non terminal FunctionList       readList;
 non terminal FunctionList       printList;
 non terminal FunctionList       printLineList;
+non terminal FunctionList       parameterList;
+non terminal FunctionList       parameterSublist;
+non terminal Parameter          parameter;
 non terminal Name               name;
 non terminal Type               type;
 non terminal Type               returnType;
@@ -93,14 +96,14 @@ precedence left MULTIPLY, DIVIDE;
 precedence left TYPECAST;
 precedence right PREFIXPLUS, PREFIXMINUS, COMPLEMENT, INCREMENT, DECREMENT;
 
-program             ::= CLASS ID:i LCURLY memberDeclerations:m
+program             ::= CLASS ID:i LCURLY memberDeclerations:m RCURLY
                         {: RESULT = new Program(new Name(i), m); :}
                         ;
 
-memberDeclerations  ::= FINAL type:t ID:i EQ expression:e SEMI memberDeclerations:m
+memberDeclerations  ::= FINAL type:t ID:i ASSIGN expression:e SEMI memberDeclerations:m
                         {: RESULT = null; :}
                         |
-                        type:t ID:i EQ expression:e SEMI memberDeclerations:m
+                        type:t ID:i ASSIGN expression:e SEMI memberDeclerations:m
                         {: RESULT = null; :}
                         |
                         FINAL type:t ID:i SEMI memberDeclerations:m
@@ -112,11 +115,38 @@ memberDeclerations  ::= FINAL type:t ID:i EQ expression:e SEMI memberDecleration
                         type:t ID:i LBRACKET INTEGER_LITERAL:in RBRACKET SEMI memberDeclerations:m
                         {: RESULT = null; :}
                         |
-                        type:t ID:i LPAREN argumentList:a RPAREN LCURLY fieldList:f statements:s RCURLY SEMI memberDeclerations:md
+                        type:t ID:i LPAREN parameterList:p RPAREN LCURLY fieldList:f statements:s RCURLY SEMI memberDeclerations:md
                         {: RESULT = null; :}
                         |
-                        VOID ID:i LPAREN argumentList:a RPAREN LCURLY fieldList:f statements:s RCURLY SEMI memberDeclerations:md
+                        VOID ID:i LPAREN parameterList:p RPAREN LCURLY fieldList:f statements:s RCURLY SEMI memberDeclerations:md
                         {: RESULT = null; :}
+                        |
+                        type:t ID:i LPAREN parameterList:p RPAREN LCURLY fieldList:f statements:s RCURLY memberDeclerations:md
+                        {: RESULT = null; :}
+                        |
+                        VOID ID:i LPAREN parameterList:p RPAREN LCURLY fieldList:f statements:s RCURLY memberDeclerations:md
+                        {: RESULT = null; :}
+                        |
+                        {: RESULT = null; :}
+                        ;
+
+parameterList       ::= parameter:p parameterSublist:pl
+                        {: RESULT = pl.prepend(p); :}
+                        |
+                        {: RESULT = new ParameterList(); :}
+                        ;
+
+parameterSublist    ::= COMMA parameter:p parameterSublist:pl
+                        {: RESULT = pl.prepend(p); :}
+                        |
+                        {: RESULT = new ParameterList(); :}
+                        ;
+
+parameter           ::= type:t ID:i
+                        {: RESULT = new Parameter(t, new Name(i), false); :}
+                        |
+                        type:t ID:i LBRACKET RBRACKET
+                        {: RESULT = new Parameter(t, new Name(i), true); :}
                         ;
 
 fieldList           ::= fieldDecleration:f fieldList:ff
@@ -125,10 +155,10 @@ fieldList           ::= fieldDecleration:f fieldList:ff
                         {: RESULT = new FieldList(); :}
                         ;
 
-fieldDecleration    ::= FINAL type:t ID:i EQ expression:e SEMI
+fieldDecleration    ::= FINAL type:t ID:i ASSIGN expression:e SEMI
                         {: RESULT = new Field(t, new Name(i), e, true); :}
                         |
-                        type:t ID:i EQ expression:e SEMI
+                        type:t ID:i ASSIGN expression:e SEMI
                         {: RESULT = new Field(t, new Name(i), e, false); :}
                         |
                         FINAL type:t ID:i SEMI

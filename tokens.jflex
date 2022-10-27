@@ -37,7 +37,6 @@ import java_cup.runtime.*;
 
 %}
 
-
 /**
  * PATTERN DEFINITIONS:
  * Implement patterns as regex here
@@ -47,7 +46,6 @@ Whitespace = [ \n\t\r]
 Identifier = [A-Za-z][A-Za-z0-9]*
 IntegerLiteral = [0-9]+
 FloatLiteral = [0-9]+\.[0-9]+
-CharLiteral = \'([^\n\r]|\\n|\\t|\\\\|\\\')\'
 Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
 
 %state STRING
