@@ -94,11 +94,29 @@ precedence left TYPECAST;
 precedence right PREFIXPLUS, PREFIXMINUS, COMPLEMENT, INCREMENT, DECREMENT;
 
 program             ::= CLASS ID:i LCURLY memberDeclerations:m
-                        {: RESULT = new Program(s); :}
+                        {: RESULT = new Program(new Name(i), m); :}
                         ;
 
-memberDeclerations  ::= fieldList:f methodList:m
-                        {: RESULT = new MemberDeclerations(f, m):}
+memberDeclerations  ::= FINAL type:t ID:i EQ expression:e SEMI memberDeclerations:m
+                        {: RESULT = null; :}
+                        |
+                        type:t ID:i EQ expression:e SEMI memberDeclerations:m
+                        {: RESULT = null; :}
+                        |
+                        FINAL type:t ID:i SEMI memberDeclerations:m
+                        {: RESULT = null; :}
+                        |
+                        type:t ID:i SEMI memberDeclerations:m
+                        {: RESULT = null; :}
+                        |
+                        type:t ID:i LBRACKET INTEGER_LITERAL:in RBRACKET SEMI memberDeclerations:m
+                        {: RESULT = null; :}
+                        |
+                        type:t ID:i LPAREN argumentList:a RPAREN LCURLY fieldList:f statements:s RCURLY SEMI memberDeclerations:md
+                        {: RESULT = null; :}
+                        |
+                        VOID ID:i LPAREN argumentList:a RPAREN LCURLY fieldList:f statements:s RCURLY SEMI memberDeclerations:md
+                        {: RESULT = null; :}
                         ;
 
 fieldList           ::= fieldDecleration:f fieldList:ff
@@ -120,20 +138,7 @@ fieldDecleration    ::= FINAL type:t ID:i EQ expression:e SEMI
                         {: RESULT = new Field(t, new Name(i), false); :}
                         |
                         type:t ID:i LBRACKET INTEGER_LITERAL:in RBRACKET SEMI
-                        {: RESULT = new Field(t, new Name(i, in), false) :}
-                        ;
-
-methodList          ::= methodDecleration:m methodList:mm
-                        {: RESULT = mm.prepend(m); :}
-                        |
-                        {: RESULT = new MethodList(); :}
-                        ;
-
-methodDecleration   ::= returnType:t ID:i LPAREN argumentList:a RPAREN LCURLY fieldList:f statements:s RCURLY SEMI
-                        {: RESULT = new Method(t, i, a, f, s, true); :}
-                        |
-                        returnType:t ID:i LPAREN argumentList:a RPAREN LCURLY fieldList:f statements:s RCURLY
-                        {: RESULT = new Method(t, i, a, f, s, false); :}
+                        {: RESULT = null; :}
                         ;
 
 statements          ::= statement:s statements:ss
@@ -258,13 +263,6 @@ type                ::= INT
                         |
                         FLOAT
                         {: RESULT = new Type("float"); :}
-                        ;
-
-returnType          ::= VOID
-                        {: RESULT = new Type("void"); :}
-                        |
-                        type:t
-                        {: RESULT = t; :}
                         ;
 
 expression          ::= binaryExpression:b
