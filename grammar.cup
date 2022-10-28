@@ -1,6 +1,5 @@
 import java_cup.runtime.*;
 
-terminal    SEMI;
 terminal    ASSIGN;
 terminal    CLASS;
 terminal    FINAL;
@@ -47,6 +46,7 @@ terminal    PREFIXMINUS;
 terminal    TYPECAST;
 terminal    TERNARY;
 
+terminal boolean    SEMI;
 terminal int        INTEGER_LITERAL;
 terminal float      FLOAT_LITERAL;
 terminal String     CHAR_LITERAL;
@@ -85,6 +85,7 @@ non terminal Parameter          parameter;
 non terminal Name               name;
 non terminal Type               type;
 non terminal Type               returnType;
+non terminal Boolean            optionalSemi;
 
 precedence right QUESTION, COLON, TERNARY;
 precedence left OR;
@@ -115,16 +116,10 @@ memberDeclerations  ::= FINAL type:t ID:i ASSIGN expression:e SEMI memberDeclera
                         type:t ID:i LBRACKET INTEGER_LITERAL:in RBRACKET SEMI memberDeclerations:m
                         {: RESULT = null; :}
                         |
-                        type:t ID:i LPAREN parameterList:p RPAREN LCURLY fieldList:f statements:s RCURLY SEMI memberDeclerations:md
+                        type:t ID:i LPAREN parameterList:p RPAREN LCURLY fieldList:f statements:s RCURLY optionalSemi:os memberDeclerations:md
                         {: RESULT = null; :}
                         |
-                        VOID ID:i LPAREN parameterList:p RPAREN LCURLY fieldList:f statements:s RCURLY SEMI memberDeclerations:md
-                        {: RESULT = null; :}
-                        |
-                        type:t ID:i LPAREN parameterList:p RPAREN LCURLY fieldList:f statements:s RCURLY memberDeclerations:md
-                        {: RESULT = null; :}
-                        |
-                        VOID ID:i LPAREN parameterList:p RPAREN LCURLY fieldList:f statements:s RCURLY memberDeclerations:md
+                        VOID ID:i LPAREN parameterList:p RPAREN LCURLY fieldList:f statements:s RCURLY optionalSemi:os memberDeclerations:md
                         {: RESULT = null; :}
                         |
                         {: RESULT = null; :}
@@ -168,7 +163,7 @@ fieldDecleration    ::= FINAL type:t ID:i ASSIGN expression:e SEMI
                         {: RESULT = new Field(t, new Name(i), false); :}
                         |
                         type:t ID:i LBRACKET INTEGER_LITERAL:in RBRACKET SEMI
-                        {: RESULT = null; :}
+                        {: RESULT = new Field(t, new Name(i), true); :}
                         ;
 
 statements          ::= statement:s statements:ss
@@ -242,11 +237,8 @@ suffixStatement     ::= name:n INCREMENT SEMI
                         {: RESULT = new SuffixStatement(n, "--"); :}
                         ;
 
-scopeStatement      ::= LCURLY statements:s RCURLY
-                        {: RESULT = new ScopeStatement(s, false); :}
-                        |
-                        LCURLY statements:s RCURLY SEMI
-                        {: RESULT = new ScopeStatement(s, true); :}
+scopeStatement      ::= LCURLY statements:s RCURLY optionalSemi:os
+                        {: RESULT = new ScopeStatement(s, os); :}
                         ;
 
 argumentList        ::= expression:e COMMA argumentList:a
@@ -401,4 +393,10 @@ callExpression      ::= ID:i LPAREN RPAREN
                         |
                         ID:i LPAREN argumentList:a RPAREN
                         {: RESULT = new CallExpression(i, a); :}
+                        ;
+
+optionalSemi        ::= SEMI
+                        {: RESULT = true; :}
+                        |
+                        {: RESULT = false; :}
                         ;

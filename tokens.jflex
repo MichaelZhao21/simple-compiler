@@ -58,7 +58,7 @@ Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
 
 <YYINITIAL> {
     /* Keywords */
-    ";"                 { return symbol(sym.SEMI); }
+    ";"                 { return symbol(sym.SEMI, true); }
     "=="                { return symbol(sym.EQ); }
     "="                 { return symbol(sym.ASSIGN); }
     "++"                { return symbol(sym.INCREMENT); }
