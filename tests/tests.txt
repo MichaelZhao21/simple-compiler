@@ -1,7 +1,8 @@
 class Hi {
     char x = 'a';
-    
-    void run(int a, int b) {
+    int y = 5;
+
+    void run(int a[], int b) {
         if (a || b) {
             return urmom * 5 - ~4 / 2 + ide;
         } else {
@@ -22,5 +23,10 @@ class Hi {
                 bob[7 * ned[2]] = 5;
             };
         }
+    }
+
+
+    char bye() {
+        return 'c';
     }
 }

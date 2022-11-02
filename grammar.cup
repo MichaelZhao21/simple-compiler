@@ -54,10 +54,10 @@ terminal String     STRING_LITERAL;
 terminal String     ID;
 
 non terminal Program            program;
-non terminal MemberDeclerations memberDeclerations;
+non terminal DeclerationList    memberDeclerations;
 non terminal FieldList          fieldList;
 non terminal Field              fieldDecleration;
-non terminal MethodList         methodList;
+non terminal DeclerationList    methodList;
 non terminal Method             methodDecleration;
 non terminal StatementList      statements;
 non terminal Statement          statement;
@@ -101,47 +101,13 @@ program             ::= CLASS ID:i LCURLY memberDeclerations:m RCURLY
                         {: RESULT = new Program(new Name(i), m); :}
                         ;
 
-memberDeclerations  ::= FINAL type:t ID:i ASSIGN expression:e SEMI memberDeclerations:m
-                        {: RESULT = null; :}
+memberDeclerations  ::= fieldDecleration:f memberDeclerations:m
+                        {: RESULT = m.prepend(f); :}
                         |
-                        type:t ID:i ASSIGN expression:e SEMI memberDeclerations:m
-                        {: RESULT = null; :}
+                        methodDecleration:d methodList:m
+                        {: RESULT = m.prepend(d); :}
                         |
-                        FINAL type:t ID:i SEMI memberDeclerations:m
-                        {: RESULT = null; :}
-                        |
-                        type:t ID:i SEMI memberDeclerations:m
-                        {: RESULT = null; :}
-                        |
-                        type:t ID:i LBRACKET INTEGER_LITERAL:in RBRACKET SEMI memberDeclerations:m
-                        {: RESULT = null; :}
-                        |
-                        type:t ID:i LPAREN parameterList:p RPAREN LCURLY fieldList:f statements:s RCURLY optionalSemi:os memberDeclerations:md
-                        {: RESULT = null; :}
-                        |
-                        VOID ID:i LPAREN parameterList:p RPAREN LCURLY fieldList:f statements:s RCURLY optionalSemi:os memberDeclerations:md
-                        {: RESULT = null; :}
-                        |
-                        {: RESULT = null; :}
-                        ;
-
-parameterList       ::= parameter:p parameterSublist:pl
-                        {: RESULT = pl.prepend(p); :}
-                        |
-                        {: RESULT = new ParameterList(); :}
-                        ;
-
-parameterSublist    ::= COMMA parameter:p parameterSublist:pl
-                        {: RESULT = pl.prepend(p); :}
-                        |
-                        {: RESULT = new ParameterList(); :}
-                        ;
-
-parameter           ::= type:t ID:i
-                        {: RESULT = new Parameter(t, new Name(i), false); :}
-                        |
-                        type:t ID:i LBRACKET RBRACKET
-                        {: RESULT = new Parameter(t, new Name(i), true); :}
+                        {: RESULT = new DeclerationList(); :}
                         ;
 
 fieldList           ::= fieldDecleration:f fieldList:ff
@@ -163,7 +129,39 @@ fieldDecleration    ::= FINAL type:t ID:i ASSIGN expression:e SEMI
                         {: RESULT = new Field(t, new Name(i), false); :}
                         |
                         type:t ID:i LBRACKET INTEGER_LITERAL:in RBRACKET SEMI
-                        {: RESULT = new Field(t, new Name(i), true); :}
+                        {: RESULT = new Field(t, new Name(i, in), false); :}
+                        ;
+
+methodList          ::= methodDecleration:m methodList:mm
+                        {: RESULT = mm.prepend(m); :}
+                        |
+                        {: RESULT = new DeclerationList(); :}
+                        ;
+
+methodDecleration   ::= type:t ID:i LPAREN parameterList:p RPAREN LCURLY fieldList:f statements:s RCURLY optionalSemi:os 
+                        {: RESULT = new Method(t, new Name(i), p, f, s, os); :}
+                        |
+                        VOID ID:i LPAREN parameterList:p RPAREN LCURLY fieldList:f statements:s RCURLY optionalSemi:os 
+                        {: RESULT = new Method(new Type("void"), new Name(i), p, f, s, os); :}
+                        ;
+
+parameterList       ::= parameter:p parameterSublist:pl
+                        {: RESULT = pl.prepend(p); :}
+                        |
+                        {: RESULT = new ParameterList(); :}
+                        ;
+
+parameterSublist    ::= COMMA parameter:p parameterSublist:pl
+                        {: RESULT = pl.prepend(p); :}
+                        |
+                        {: RESULT = new ParameterList(); :}
+                        ;
+
+parameter           ::= type:t ID:i
+                        {: RESULT = new Parameter(t, new Name(i), false); :}
+                        |
+                        type:t ID:i LBRACKET RBRACKET
+                        {: RESULT = new Parameter(t, new Name(i), true); :}
                         ;
 
 statements          ::= statement:s statements:ss
@@ -273,7 +271,7 @@ elseClause          ::= ELSE LCURLY statements:s RCURLY
                         |
                         {: RESULT = new ElseClause(); :}
                         ;
-
+                        
 type                ::= INT
                         {: RESULT = new Type("int"); :}
                         |

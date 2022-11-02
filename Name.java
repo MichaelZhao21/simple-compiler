@@ -6,6 +6,11 @@ public class Name extends Expression {
         this.expression = expression;
     }
 
+    public Name(String id, int number) {
+        this.id = id;
+        this.expression = new OperandExpression(number);
+    }
+
     public Name(String id) {
         this.id = id;
         this.expression = null;

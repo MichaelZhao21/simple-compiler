@@ -1,0 +1,16 @@
+class test {
+
+  float argsTest(int k, float y, bool arr[], char test[]){
+
+  }
+
+  bool innerTest(){
+    int x = 0;
+
+    while( x< 0){
+      int y=2+x * x;
+    }
+
+  }
+
+}

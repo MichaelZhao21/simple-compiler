@@ -1,12 +1,12 @@
-public class Method extends Token {
+public class Method extends Decleration {
     Type returnType;
     Name id;
-    ArgumentList argumentList;
+    FunctionList argumentList;
     FieldList fieldList;
     StatementList statementList;
     boolean semi;
 
-    public Method(Type returnType, Name id, ArgumentList argumentList, FieldList fieldList, StatementList statementList,
+    public Method(Type returnType, Name id, FunctionList argumentList, FieldList fieldList, StatementList statementList,
             boolean semi) {
         this.returnType = returnType;
         this.id = id;

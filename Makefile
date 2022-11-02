@@ -16,8 +16,8 @@ run: test
 		$(JAVAC) -cp $(CP) $*.java
 
 FILE= Lexer.java Parser.java sym.java LexerTest.java ScannerTest.java \
-		Token.java Program.java \
-		MemberDeclerations.java FieldList.java Field.java MethodList.java Method.java ParameterList.java Parameter.java \
+		Token.java Program.java Decleration.java DeclerationList.java \
+		FieldList.java Field.java MethodList.java Method.java ParameterList.java Parameter.java \
 		StatementList.java Statement.java IfStatement.java WhileStatement.java ReturnStatement.java \
 		AssignmentStatement.java LibraryFunctionStatement.java CallStatement.java SuffixStatement.java ScopeStatement.java \
 		FunctionList.java ArgumentList.java ReadList.java PrintList.java \

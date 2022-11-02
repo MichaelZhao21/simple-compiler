@@ -1,8 +1,8 @@
 public class Program extends Token {
     Name id;
-    MemberDeclerations memberDeclerations;
+    DeclerationList memberDeclerations;
 
-    public Program(Name id, MemberDeclerations memberDeclerations) {
+    public Program(Name id, DeclerationList memberDeclerations) {
         this.memberDeclerations = memberDeclerations;
         this.id = id;
     }

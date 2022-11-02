@@ -1,4 +1,4 @@
-public class Field extends Token {
+public class Field extends Decleration {
     Type type;
     Name id;
     Expression expression;
@@ -21,6 +21,6 @@ public class Field extends Token {
     @Override
     public String toString(int t) {
         return printParams(t, hasFinal ? "final" : "", type.toString(0), id.toString(0),
-                expression == null ? "" : expression.toString(0));
+                expression == null ? "" : "= " + expression.toString(0) + " ;");
     }
 }
