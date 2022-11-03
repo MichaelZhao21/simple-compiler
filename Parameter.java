@@ -11,6 +11,6 @@ public class Parameter extends Token {
 
     @Override
     public String toString(int t) {
-        return printParams(t, id.toString(0), isArray ? "[ ]" : "");
+        return printParams(t, type.toString(0), id.toString(0) + (isArray ? " [ ]" : ""));
     }
 }

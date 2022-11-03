@@ -195,12 +195,12 @@ statement           ::= ifStatement:i
                         {: RESULT = ss; :}
                         ;
 
-ifStatement         ::= IF LPAREN expression:e RPAREN LCURLY statements:s RCURLY elseClause:ec
-                        {: RESULT = new IfStatement(e, s, ec); :}
+ifStatement         ::= IF LPAREN expression:e RPAREN LCURLY fieldList:f statements:s RCURLY elseClause:ec
+                        {: RESULT = new IfStatement(e, f, s, ec); :}
                         ;
 
-whileStatement      ::= WHILE LPAREN expression:e RPAREN LCURLY statements:s RCURLY
-                        {: RESULT = new WhileStatement(e, s); :}
+whileStatement      ::= WHILE LPAREN expression:e RPAREN LCURLY fieldList:f statements:s RCURLY
+                        {: RESULT = new WhileStatement(e, f, s); :}
                         ;
 
 returnStatement     ::= RETURN expression:e SEMI
@@ -235,8 +235,8 @@ suffixStatement     ::= name:n INCREMENT SEMI
                         {: RESULT = new SuffixStatement(n, "--"); :}
                         ;
 
-scopeStatement      ::= LCURLY statements:s RCURLY optionalSemi:os
-                        {: RESULT = new ScopeStatement(s, os); :}
+scopeStatement      ::= LCURLY fieldList:f statements:s RCURLY optionalSemi:os
+                        {: RESULT = new ScopeStatement(f, s, os); :}
                         ;
 
 argumentList        ::= expression:e COMMA argumentList:a
@@ -266,8 +266,8 @@ readList            ::= name:n COMMA readList:r
                         {: RESULT = new ReadList(n); :}
                         ;
 
-elseClause          ::= ELSE LCURLY statements:s RCURLY
-                        {: RESULT = new ElseClause(s); :}
+elseClause          ::= ELSE LCURLY fieldList:f statements:s RCURLY
+                        {: RESULT = new ElseClause(f, s); :}
                         |
                         {: RESULT = new ElseClause(); :}
                         ;

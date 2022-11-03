@@ -21,6 +21,6 @@ public class ReadList extends FunctionList {
 
     @Override
     public String toString(int t) {
-        return printParams(t, printList(", ", nameList, 0));
+        return printParams(t, printCommaList(nameList, 0));
     }
 }

@@ -9,6 +9,7 @@ public class Program extends Token {
 
     @Override
     public String toString(int t) {
-        return printParams(t, "class", id.toString(0), "{\n", memberDeclerations.toString(t), "\n}");
+        return printParams(t, "class", id.toString(0), "{") +
+                printParams("", 0, "\n", memberDeclerations.toString(t + 1), "\n}");
     }
 }

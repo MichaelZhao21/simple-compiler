@@ -1,32 +1,64 @@
-class Hi {
-    char x = 'a';
+class A {
+    \*
+     * Test out Field Declerations.
+     * These should be enforced to go before Method Declerations
+     * however there is no test for that as it would just error.
+     *\
+    bool x;
+    float a5 = 6.7;
     int y = 5;
+    char z[10];
 
-    void run(int a[], int b) {
-        if (a || b) {
-            return urmom * 5 - ~4 / 2 + ide;
+    void func0() {
+        \\ Nothing here!
+    }
+
+    int func1(int a, char b, float c[], bool d) {
+        \\ Just testing params
+    }
+
+    void func2(char x) {
+        print(x);
+        return;
+    }
+
+    char func3(int hello) {
+        bool y;
+        int x = 10;
+        char no[1000];
+        float aaaaaaaaaaaaa = 3.141592;
+
+        printline("hello", "world", x, no);
+        return hello * 20;
+    }
+
+    void func4() {
+        int y;
+    }
+
+    char func5(int x) {
+        if (x <> 5) {
+            return '1';
         } else {
-            return;
-        }
-
-        if (ethan + is + cool) {
-            return 1 + 2 + 3;
-        }
-
-        while (ur * face == no) {
-            if (5 + 5 == 10) {
-                return 100.24;
-            }
-        }
-        {
-            {
-                bob[7 * ned[2]] = 5;
-            };
+            printline("Uh oh");
         }
     }
 
+    void func6() {
+        int x = 10;
+        while (x > 0) {
+            print(x);
+            x--;
+        }
+        return;
+    }
 
-    char bye() {
-        return 'c';
+    int func7(int x, int y, int z) {
+        if (x == 1) {
+            return;
+        }
+        if (x == y + z || y == z + 10 || true && (~10 + 9 * 4 / 2 - 4444 ? 1 : x + y) == z) {
+            return x + y;
+        }
     }
 }

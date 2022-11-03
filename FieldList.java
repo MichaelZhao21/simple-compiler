@@ -15,6 +15,6 @@ public class FieldList extends Token {
 
     @Override
     public String toString(int t) {
-        return printParams(t, printList("\n" + getTabs(t), fieldList, t));
+        return printParams("", 0, printLineList(fieldList, t), fieldList.isEmpty() ? "" : "\n" + getTabs(t));
     }
 }

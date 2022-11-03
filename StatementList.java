@@ -15,6 +15,6 @@ public class StatementList extends Token {
 
     @Override
     public String toString(int t) {
-        return printParams(t, printList("\n" + getTabs(t), statements, t)); 
+        return printParams(0, printLineList(statements, t)); 
     }
 }

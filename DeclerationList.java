@@ -15,7 +15,6 @@ public class DeclerationList extends Token {
 
     @Override
     public String toString(int t) {
-        System.out.println(t);
-        return printParams("", t, printList("\n" + getTabs(t), declerationList, t));
+        return printParams("", t, printLineList(declerationList, t));
     }
 }

@@ -20,7 +20,7 @@ public class Field extends Decleration {
 
     @Override
     public String toString(int t) {
-        return printParams(t, hasFinal ? "final" : "", type.toString(0), id.toString(0),
-                expression == null ? "" : "= " + expression.toString(0) + " ;");
+        return printParams(0, hasFinal ? "final " : "" + type.toString(0), id.toString(0),
+                expression == null ? ";" : "= " + expression.toString(0) + " ;");
     }
 }

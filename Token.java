@@ -23,18 +23,29 @@ abstract class Token {
         return getTabs(t) + sb.toString();
     }
 
-    protected <T extends Token> String printList(String sep, List<T> l, int t) {
-        return printList(sep, l, t, false);
+    protected <T extends Token> String printCommaList(List<T> l, int t) {
+        return printCommaList(l, t, false);
     }
 
-    protected <T extends Token> String printList(String sep, List<T> l, int t, boolean isExpression) {
+    protected <T extends Token> String printCommaList(List<T> l, int t, boolean isExpression) {
         if (l.size() == 0)
             return "";
         StringBuilder sb = new StringBuilder().append(isExpression ? "( " : "").append(l.get(0).toString(t))
                 .append(isExpression ? " )" : "");
         for (int i = 1; i < l.size(); i++) {
-            sb.append(sep).append(isExpression ? "( " : "").append(l.get(i).toString(t))
+            sb.append(", ").append(isExpression ? "( " : "").append(l.get(i).toString(t))
                     .append(isExpression ? " )" : "");
+        }
+        return sb.toString();
+    }
+
+    protected <T extends Token> String printLineList(List<T> l, int t) {
+        if (l.size() == 0) 
+            return "";
+        String sep = "\n" + getTabs(t);
+        StringBuilder sb = new StringBuilder().append(l.get(0).toString(t));
+        for (int i = 1; i < l.size(); i++) {
+            sb.append(sep).append(l.get(i).toString(t));
         }
         return sb.toString();
     }

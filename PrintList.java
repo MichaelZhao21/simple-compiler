@@ -20,6 +20,6 @@ public class PrintList extends FunctionList {
 
     @Override
     public String toString(int t) {
-        return printParams(t, printList(", ", expressionList, 0, true));
+        return printParams(t, printCommaList(expressionList, 0, true));
     }
 }
