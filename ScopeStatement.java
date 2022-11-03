@@ -11,6 +11,6 @@ public class ScopeStatement extends Statement {
 
     @Override
     public String toString(int t) {
-        return printParams("", 0, "{\n", fieldList.toString(t + 1), statementList.toString(t + 1), "\n", getTabs(t), "}", semi ? " ;" : "", "\n");
+        return printParams("", 0, "{\n", getTabs(t + 1), fieldList.toString(t + 1), statementList.toString(t + 1), "\n", getTabs(t), "}", semi ? " ;" : "", "\n");
     }
 }
