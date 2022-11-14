@@ -46,7 +46,7 @@ Whitespace = [ \n\t\r]
 Identifier = [A-Za-z][A-Za-z0-9]*
 IntegerLiteral = [0-9]+
 FloatLiteral = [0-9]+\.[0-9]+
-Comment = (\\\\.*\n)|(\\\*(.|\R)*\*\\)
+Comment = (\\\\.*\R)|(\\\*(.|\R)*\*\\)
 
 %state STRING
 %state CHAR
