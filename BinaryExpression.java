@@ -18,10 +18,12 @@ public class BinaryExpression extends Expression {
     public DataType getType() throws CompilerException {
         DataType lhsRawType = lhs.getType();
         DataType rhsRawType = rhs.getType();
-        if (!(lhsRawType instanceof VariableDataType) || !(rhsRawType instanceof VariableDataType)) {
-            throw new CompilerException(String.format("Error: Cannot perform %s on %s and %s", op, lhsRawType.toString(), rhsRawType.toString()));
+        if (DataType.isMethodType(lhsRawType, rhsRawType)) {
+            throw new CompilerException(String.format("Error: Cannot perform %s on %s and %s", op,
+                    lhsRawType.toString(), rhsRawType.toString()));
         }
         VariableDataType lhsType = (VariableDataType) lhs.getType();
+        lhsType.ignoreFinal = true;
         VariableDataType rhsType = (VariableDataType) rhs.getType();
 
         if ((lhsType.type.equals("int") || lhsType.type.equals("float"))
@@ -33,6 +35,7 @@ public class BinaryExpression extends Expression {
             }
         }
 
-        throw new CompilerException(String.format("Error: Cannot perform %s on %s and %s", op, lhsType.type, rhsType.type));
+        throw new CompilerException(
+                String.format("Error: Cannot perform %s on %s and %s", op, lhsType.type, rhsType.type));
     }
 }

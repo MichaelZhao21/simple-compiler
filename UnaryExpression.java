@@ -14,19 +14,29 @@ public class UnaryExpression extends Expression {
 
     @Override
     public DataType getType() throws CompilerException {
-        DataType rawExprType = expression.getType();
-        if (rawExprType instanceof MethodDataType) {
-            throw new CompilerException(String.format("Error: Cannot perform %s on %s", op, rawExprType.toString()));
+        VariableDataType type = DataType.getVariableType(expression.getType(),
+                String.format("Error: Cannot perform %s on %s", op, expression.getType().toString()));
+        CompilerException error = new CompilerException(
+                String.format("Error: Cannot perform %s on %s", op, type.toString()));
+
+        // ~ op
+        if (op.equals("~")) {
+            VariableDataType booleanDataType = new VariableDataType("boolean", true);
+            if (!booleanDataType.equals(type))
+                throw error;
+            return type;
         }
-        VariableDataType exprType = (VariableDataType) expression.getType();
-        if (exprType.type != "int" && exprType.type != "float") {
-            throw new CompilerException(String.format("Error: Cannot perform %s on %s", op, exprType.type));
-        }
-        return exprType;
+
+        // + and - op
+        VariableDataType floatDataType = new VariableDataType("float", true);
+        if (!floatDataType.equals(type))
+            throw error;
+        return type;
     }
 
     @Override
     public String typeCheck() throws CompilerException {
-        return op + ": " + getType().toString() + " " + expression.toString(0);
+        return String.format("Performed %s on %s (result = %s)", op, expression.getType().toString(),
+                getType().toString());
     }
 }

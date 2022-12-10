@@ -5,9 +5,8 @@ class Main {
 
     void main() {
         float x = 1.234;
-        x = 20;
-        x = 12.4;
-        x = 123.222222;
+        x = (~1 ? 100.2 : 2334.44);
+        addOne(x, 10);
         print(x, "hello", "world", 'a', 123.3);
     }
 }

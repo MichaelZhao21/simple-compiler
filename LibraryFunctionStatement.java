@@ -15,18 +15,16 @@ public class LibraryFunctionStatement extends Statement {
     @Override
     public String typeCheck() throws CompilerException {
         ListDataType argsType = (ListDataType) list.getType();
-        for (DataType type : argsType.typeList) {
-            if (type instanceof MethodDataType) {
-                throw new CompilerException("Error: cannot call " + function + " with argument " + type.toString());
-            }
-            VariableDataType varType = (VariableDataType) type;
+        for (DataType rawType : argsType.typeList) {
+            VariableDataType type = DataType.getVariableType(rawType,
+                    "Error: cannot call " + function + " with argument " + rawType.toString());
             if (function.equals("print") || function.equals("printline")) {
-                if (varType.isArray || varType.type.equals("void")) {
-                    throw new CompilerException("Error: cannot call print with argument " + varType.toString());
+                if (type.isArray || type.type.equals("void")) {
+                    throw new CompilerException("Error: cannot call print with argument " + type.toString());
                 }
             } else if (function.equals("read")) {
-                if (varType.isArray || varType.isFinal) {
-                    throw new CompilerException("Error: cannot call read with the argument" + varType.toString());
+                if (type.isArray || type.isFinal) {
+                    throw new CompilerException("Error: cannot call read with the argument" + type.toString());
                 }
             }
         }

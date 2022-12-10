@@ -61,6 +61,6 @@ abstract class Token {
     }
 
     public DataType getType() throws CompilerException {
-        return null;
+        throw new CompilerException(this.getClass() + " getType not defined!");
     }
 }

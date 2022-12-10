@@ -9,4 +9,14 @@ public class CallStatement extends Statement {
     public String toString(int t) {
         return printParams(0, c.toString(0), ";");
     }
+    
+    @Override
+    public DataType getType() throws CompilerException {
+        return c.getType();
+    }
+
+    @Override
+    public String typeCheck() throws CompilerException {
+        return c.typeCheck();
+    }
 }
