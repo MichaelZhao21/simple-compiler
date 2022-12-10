@@ -46,7 +46,12 @@ Whitespace = [ \n\t\r]
 Identifier = [A-Za-z][A-Za-z0-9]*
 IntegerLiteral = [0-9]+
 FloatLiteral = [0-9]+\.[0-9]+
-Comment = (\\\\.*\R)|(\\\*(.|\R)*\*\\)
+
+LineTerminator = \r|\n|\r\n
+InputCharacter = [^\r\n]
+Comment = {TraditionalComment} | {EndOfLineComment}
+TraditionalComment = "\\*" [^*] ~"*\\" | "\\*" "*"+ "\\"
+EndOfLineComment = "\\\\" {InputCharacter}* {LineTerminator}?
 
 %state STRING
 %state CHAR

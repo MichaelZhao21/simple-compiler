@@ -1,6 +1,8 @@
 import java.util.List;
 
 abstract class Token {
+    protected static SymbolTable symbolTable = new SymbolTable();
+
     protected String getTabs(int t) {
         StringBuilder tabs = new StringBuilder();
         for (int i = 0; i < t; i++) {
@@ -52,5 +54,13 @@ abstract class Token {
 
     public String toString(int t) {
         return "";
+    }
+
+    public String typeCheck() throws CompilerException {
+        return "";
+    }
+
+    public DataType getType() throws CompilerException {
+        return null;
     }
 }

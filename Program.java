@@ -12,4 +12,9 @@ public class Program extends Token {
         return printParams(t, "class", id.toString(0), "{") +
                 printParams("", 0, "\n", memberDeclerations.toString(t + 1), "\n}");
     }
+
+    @Override
+    public String typeCheck() throws CompilerException {
+        return memberDeclerations.typeCheck();
+    }
 }

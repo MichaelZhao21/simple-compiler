@@ -17,4 +17,13 @@ public class FieldList extends Token {
     public String toString(int t) {
         return printParams("", 0, printLineList(fieldList, t), fieldList.isEmpty() ? "" : "\n" + getTabs(t));
     }
+
+    @Override
+    public String typeCheck() throws CompilerException {
+        StringBuilder sb = new StringBuilder("Fields: ");
+        for (Field f : fieldList) {
+            sb.append(f.typeCheck()).append(", ");
+        }
+        return sb.toString();
+    }
 }

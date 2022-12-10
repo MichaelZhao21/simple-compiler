@@ -17,4 +17,13 @@ public class StatementList extends Token {
     public String toString(int t) {
         return printParams(0, printLineList(statements, t)); 
     }
+
+    @Override
+    public String typeCheck() throws CompilerException {
+        StringBuilder sb = new StringBuilder("Statements:\n");
+        for (Statement s : statements) {
+            sb.append("\t\t").append(s.typeCheck()).append("\n");
+        }
+        return sb.toString();
+    }
 }

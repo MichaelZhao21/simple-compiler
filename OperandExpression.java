@@ -27,4 +27,14 @@ public class OperandExpression extends Expression {
 
         return printParams(t, valString);
     }
+
+    @Override
+    public DataType getType() throws CompilerException {
+        return new VariableDataType(type, false, false);
+    }
+
+    @Override
+    public String typeCheck() throws CompilerException {
+        return getType().toString();
+    }
 }

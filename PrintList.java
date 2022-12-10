@@ -22,4 +22,13 @@ public class PrintList extends FunctionList {
     public String toString(int t) {
         return printParams(t, printCommaList(expressionList, 0, true));
     }
+
+    @Override
+    public DataType getType() throws CompilerException {
+        List<DataType> dataTypes = new LinkedList<>();
+        for (Expression e : expressionList) {
+            dataTypes.add(e.getType());
+        }
+        return new ListDataType(dataTypes);
+    }
 }

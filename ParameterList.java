@@ -22,4 +22,18 @@ public class ParameterList extends FunctionList {
     public String toString(int t) {
         return printParams(t, printCommaList(parameterList, 0));
     }
+
+    @Override
+    public DataType getType() throws CompilerException {
+        List<DataType> dataTypes = new LinkedList<>();
+        for (Parameter p : parameterList) {
+            dataTypes.add(p.getType());
+        }
+        return new ListDataType(dataTypes);
+    }
+
+    @Override
+    public String typeCheck() throws CompilerException {
+        return getType().toString();
+    }
 }

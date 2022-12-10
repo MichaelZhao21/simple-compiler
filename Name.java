@@ -32,4 +32,14 @@ public class Name extends Expression {
         }
         return printParams(t, id, "[", "(", expression.toString(0), ")", "]");
     }
+
+    @Override
+    public DataType getType() throws CompilerException {
+        return symbolTable.get(id);
+    }
+
+    @Override
+    public String typeCheck() throws CompilerException {
+        return getType().toString();
+    }
 }

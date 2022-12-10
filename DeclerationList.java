@@ -17,4 +17,13 @@ public class DeclerationList extends Token {
     public String toString(int t) {
         return printParams("", t, printLineList(declerationList, t));
     }
+
+    @Override
+    public String typeCheck() throws CompilerException {
+        StringBuilder sb = new StringBuilder("Declerations:\n");
+        for (Decleration d : declerationList) {
+            sb.append(d.typeCheck()).append("\n");
+        }
+        return sb.toString();
+    }
 }
