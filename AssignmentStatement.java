@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class AssignmentStatement extends Statement {
     Name name;
     Expression expression;
@@ -20,5 +22,10 @@ public class AssignmentStatement extends Statement {
             throw new CompilerException(String.format("Error: assignment of %s to %s", rhsType, lhsType));
         }
         return "Assigned " + rhsType.toString() + " to " + lhsType.toString();
+    }
+
+    @Override
+    public List<DataType> getReturnTypes() throws CompilerException {
+        return null;
     }
 }

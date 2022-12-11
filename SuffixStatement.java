@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class SuffixStatement extends Statement {
     Name name;
     String op;
@@ -27,5 +29,10 @@ public class SuffixStatement extends Statement {
     @Override
     public String typeCheck() throws CompilerException {
         return op + ": " + getType().toString() + " " + name.toString(0);
+    }
+
+    @Override
+    public List<DataType> getReturnTypes() throws CompilerException {
+        return null;
     }
 }

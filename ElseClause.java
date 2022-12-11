@@ -1,4 +1,6 @@
-public class ElseClause extends Token {
+import java.util.List;
+
+public class ElseClause extends Statement {
     FieldList fieldList;
     StatementList statements;
 
@@ -18,5 +20,10 @@ public class ElseClause extends Token {
             return "";
         return printParams("", 0, " else {\n")
                 + printParams("", t + 1, fieldList.toString(t + 1), statements.toString(t + 1), "\n", getTabs(t), "}");
+    }
+
+    @Override
+    public List<DataType> getReturnTypes() throws CompilerException {
+        return statements.getReturnTypes();
     }
 }

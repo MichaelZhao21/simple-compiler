@@ -15,7 +15,7 @@ public class StatementList extends Token {
 
     @Override
     public String toString(int t) {
-        return printParams(0, printLineList(statements, t)); 
+        return printParams(0, printLineList(statements, t));
     }
 
     @Override
@@ -25,5 +25,16 @@ public class StatementList extends Token {
             sb.append("\t\t").append(s.typeCheck()).append("\n");
         }
         return sb.toString();
+    }
+
+    public List<DataType> getReturnTypes() throws CompilerException {
+        List<DataType> returnTypes = new LinkedList<>();
+        for (Statement s : statements) {
+            List<DataType> ret = s.getReturnTypes();
+            if (ret != null) {
+                returnTypes.addAll(ret);
+            }
+        }
+        return returnTypes;
     }
 }

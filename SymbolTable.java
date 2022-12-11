@@ -28,7 +28,7 @@ public class SymbolTable {
         currentScope.put(name, dataType);
     }
 
-    public void addMethod(String id, ParameterList params, String returnType) throws CompilerException {
+    public MethodDataType addMethod(String id, ParameterList params, String returnType) throws CompilerException {
         ListDataType paramType = (ListDataType) params.getType();
         MethodDataType type = new MethodDataType(paramType, returnType);
         Map<String, DataType> currentScope = table.get(table.size() - 1);
@@ -36,6 +36,7 @@ public class SymbolTable {
             throw new CompilerException("Error: redecleration of method " + id);
         }
         currentScope.put(id, type);
+        return type;
     }
 
     public DataType get(String s) throws CompilerException {

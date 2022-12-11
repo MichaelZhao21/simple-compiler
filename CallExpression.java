@@ -26,7 +26,7 @@ public class CallExpression extends Expression {
         MethodDataType methodType = (MethodDataType) rawMethodType;
         if (!methodType.paramTypeList.equals(argumentList.getType())) {
             throw new CompilerException(String.format("Error: arugment list (%s) does not match parameter list (%s)",
-                    argumentList.toString(), methodType.paramTypeList.toString()));
+                    argumentList.getType().toString(), methodType.paramTypeList.toString()));
         }
         return new VariableDataType(methodType.returnType);
     }

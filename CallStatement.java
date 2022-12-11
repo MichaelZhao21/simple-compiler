@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class CallStatement extends Statement {
     Expression c;
 
@@ -18,5 +20,10 @@ public class CallStatement extends Statement {
     @Override
     public String typeCheck() throws CompilerException {
         return c.typeCheck();
+    }
+
+    @Override
+    public List<DataType> getReturnTypes() throws CompilerException {
+        return null;
     }
 }

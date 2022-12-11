@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class LibraryFunctionStatement extends Statement {
     String function;
     FunctionList list;
@@ -29,5 +31,10 @@ public class LibraryFunctionStatement extends Statement {
             }
         }
         return "Called function " + function + " with args: " + argsType.toString();
+    }
+
+    @Override
+    public List<DataType> getReturnTypes() throws CompilerException {
+        return null;
     }
 }
