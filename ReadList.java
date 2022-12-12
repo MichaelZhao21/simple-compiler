@@ -23,4 +23,13 @@ public class ReadList extends FunctionList {
     public String toString(int t) {
         return printParams(t, printCommaList(nameList, 0));
     }
+
+    @Override
+    public DataType getType() throws CompilerException {
+        List<DataType> dataTypes = new LinkedList<>();
+        for (Name n : nameList) {
+            dataTypes.add(n.getType());
+        }
+        return new ListDataType(dataTypes);
+    }
 }

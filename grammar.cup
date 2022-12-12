@@ -279,7 +279,7 @@ type                ::= INT
                         {: RESULT = new Type("char"); :}
                         |
                         BOOL
-                        {: RESULT = new Type("bool"); :}
+                        {: RESULT = new Type("boolean"); :}
                         |
                         FLOAT
                         {: RESULT = new Type("float"); :}

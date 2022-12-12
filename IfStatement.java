@@ -16,7 +16,20 @@ public class IfStatement extends Statement {
     @Override
     public String toString(int t) {
         return printParams(0, "if ( (", condition.toString(0), ") ) {\n")
-                + printParams("", t + 1, fieldList.toString(t + 1), statements.toString(t + 1), "\n", getTabs(t), "}", elseClause.toString(t));
+                + printParams("", t + 1, fieldList.toString(t + 1), statements.toString(t + 1), "\n", getTabs(t), "}",
+                        elseClause.toString(t));
+    }
+
+    @Override
+    public String typeCheck() throws CompilerException {
+        VariableDataType condType = DataType.getVariableType(condition.getType(),
+                "Error: If conditional cannot be type " + condition.getType().toString());
+        VariableDataType booleanType = new VariableDataType("boolean", true);
+        if (!booleanType.equals(condType)) {
+            throw new CompilerException("Error: If conditional cannot be type " + condType.toString());
+        }
+        String statementTypeCheck = statements.typeCheck();
+        return "If statement: " + statementTypeCheck;
     }
 
     @Override

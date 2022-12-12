@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 import java.util.List;
 
 public class ElseClause extends Statement {
@@ -24,6 +25,8 @@ public class ElseClause extends Statement {
 
     @Override
     public List<DataType> getReturnTypes() throws CompilerException {
+        if (statements == null)
+            return new LinkedList<>();
         return statements.getReturnTypes();
     }
 }
