@@ -18,6 +18,18 @@ public class WhileStatement extends Statement {
     }
 
     @Override
+    public String typeCheck() throws CompilerException {
+        VariableDataType condType = DataType.getVariableType(condition.getType(),
+                "Error: While conditional cannot be type " + condition.getType().toString());
+        VariableDataType booleanType = new VariableDataType("boolean", true);
+        if (!booleanType.equals(condType)) {
+            throw new CompilerException("Error: While conditional cannot be type " + condType.toString());
+        }
+        String statementTypeCheck = statements.typeCheck();
+        return "While statement: " + statementTypeCheck;
+    }
+
+    @Override
     public List<DataType> getReturnTypes() throws CompilerException {
         return statements.getReturnTypes();
     }

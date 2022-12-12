@@ -35,6 +35,16 @@ public class Name extends Expression {
 
     @Override
     public DataType getType() throws CompilerException {
+        if (expression != null) {
+            VariableDataType indexType = DataType.getVariableType(expression.getType(),
+                    "Error: Cannot index array with type " + expression.getType().toString());
+            if (!indexType.type.equals("int")) {
+                throw new CompilerException("Error: Cannot index array with type " + expression.getType().toString());
+            }
+            VariableDataType type = (VariableDataType) symbolTable.get(id);
+            type.isArray = false;
+            return type;
+        }
         return symbolTable.get(id);
     }
 

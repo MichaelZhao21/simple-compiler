@@ -1,8 +1,14 @@
 class Main {
+    \*
+     * This adds one
+     *\
     int addOne(int a, int b) {
         return a + b;
     }
 
+    \*
+     * This is main
+     *\
     void main() {
         float x = 1.234;
         x = (~1 ? 100.2 : 2334.44);

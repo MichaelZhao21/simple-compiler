@@ -40,13 +40,12 @@ public class SymbolTable {
     }
 
     public DataType get(String s) throws CompilerException {
-        for (int i = table.size() - 1; i >= 0; i--) {
-            DataType type = table.get(i).get(s);
+        for (Map<String, DataType> map : table) {
+            DataType type = map.get(s);
             if (type != null) {
                 return type;
             }
         }
-
         throw new CompilerException("Error: usage of undeclared variable " + s);
     }
 
