@@ -1,4 +1,4 @@
-# Compiler Project Phase 1
+# Compiler Project
 
 Compiler project built for [CS 4386](https://catalog.utdallas.edu/2022/undergraduate/courses/cs4386).
 
@@ -21,6 +21,7 @@ To run ONLY the lexer (See `LexerTest.java`), you can use `make lex-test`. The `
 
 - **Phase 1**: Tokenizer, mostly working on `src/tokens.jflex`, which uses Regular Expressions to scan incoming tokens.
 - **Phase 2**: Parser, will take the tokens from the first part and implements the grammar in `src/grammar.cup`.
+- **Phase 3**: Type Checker, created a symbol table and will make sure all types/assignments/return types are valid.
 
 ## Resources Used
 
